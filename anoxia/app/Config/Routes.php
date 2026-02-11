@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('login', 'Auth::showLogin');
 $routes->post('auth/login', 'Auth::login');
+$routes->post('auth/recover', 'Auth::recoverPassword');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'Home::index');

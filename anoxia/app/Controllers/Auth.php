@@ -155,4 +155,139 @@ class Auth extends BaseController
 
         return redirect()->to(base_url('login'))->with('auth_info', 'Sessao terminada com sucesso.');
     }
+
+    public function recoverPassword()
+    {
+        log_message('debug', '[AUTH] recover called. method={method}', [
+            'method' => $this->request->getMethod(),
+        ]);
+
+        if (strtolower($this->request->getMethod()) !== 'post') {
+            log_message('debug', '[AUTH] recover rejected: method is not POST');
+            return redirect()->to(base_url('login'));
+        }
+
+        $email = trim((string) $this->request->getPost('email'));
+
+        log_message('debug', '[AUTH] recover payload email={email}', [
+            'email' => $email,
+        ]);
+
+        if ($email === '') {
+            log_message('debug', '[AUTH] recover validation failed: empty email');
+            return redirect()->to(base_url('login'))
+                ->with('auth_error', 'E-mail e obrigatorio.');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            log_message('debug', '[AUTH] recover validation failed: invalid email format');
+            return redirect()->to(base_url('login'))
+                ->with('auth_error', 'Introduza um e-mail valido.');
+        }
+
+        $userModel = new User();
+        try {
+            $user = $userModel->getByEmail($email);
+            
+            if (!$user) {
+                log_message('debug', '[AUTH] recover user not found for email={email}', [
+                    'email' => $email,
+                ]);
+                // Don't reveal if user exists or not for security
+                return redirect()->to(base_url('login'))
+                    ->with('auth_info', 'Se o e-mail existir, recebera instrucoes de recuperacao.');
+            }
+
+            // Generate unique token
+            $token = bin2hex(random_bytes(32));
+            $tokenHash = hash('sha256', $token);
+            $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+            $db = \Config\Database::connect();
+
+            // Delete any existing tokens for this user
+            $db->table('password_resets')->where('user_id', $user->id)->delete();
+
+            // Insert new token
+            $db->table('password_resets')->insert([
+                'user_id' => $user->id,
+                'token' => $tokenHash,
+                'expires_at' => $expiresAt,
+            ]);
+
+            log_message('debug', '[AUTH] password reset token generated for user_id={id}', [
+                'id' => (string) $user->id,
+            ]);
+
+            // Send email
+            $resetLink = base_url('auth/reset-password?token=' . $token);
+
+            $emailService = \Config\Services::email();
+            
+            $emailService->setFrom(
+                getenv('email.fromEmail') ?: 'anoxiadnd@gmail.com',
+                getenv('email.fromName') ?: 'Anoxia DnD'
+            );
+            $emailService->setTo($email);
+            $emailService->setSubject('Recuperacao de Palavra-passe - Anoxia');
+
+            $emailBody = '
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #70472a 0%, #4b301f 42%, #2a1a12 100%); color: #f6e8cd; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+        .content { background: #fff; padding: 30px; border: 1px solid #ddd; }
+        .button { display: inline-block; background: #c89b60; color: #2d1c12; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+        .footer { background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666; border-radius: 0 0 8px 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 0; font-size: 28px;">Recuperacao de Palavra-passe</h1>
+        </div>
+        <div class="content">
+            <p>Ola,</p>
+            <p>Recebemos um pedido para redefinir a palavra-passe da sua conta Anoxia.</p>
+            <p>Clique no botao abaixo para criar uma nova palavra-passe:</p>
+            <div style="text-align: center;">
+                <a href="' . $resetLink . '" class="button">Redefinir Palavra-passe</a>
+            </div>
+            <p>Ou copie e cole este link no seu navegador:</p>
+            <p style="word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px; font-size: 12px;">' . $resetLink . '</p>
+            <p><strong>Este link expira em 1 hora.</strong></p>
+            <p>Se nao solicitou esta alteracao, ignore este e-mail. A sua palavra-passe permanecera inalterada.</p>
+        </div>
+        <div class="footer">
+            <p>© 2026 Anoxia DnD. Todos os direitos reservados.</p>
+            <p>Este e um e-mail automatico. Por favor, nao responda a esta mensagem.</p>
+        </div>
+    </div>
+</body>
+</html>';
+
+            $emailService->setMessage($emailBody);
+
+            if ($emailService->send()) {
+                log_message('debug', '[AUTH] password reset email sent to {email}', [
+                    'email' => $email,
+                ]);
+            } else {
+                log_message('error', '[AUTH] failed to send password reset email: {error}', [
+                    'error' => $emailService->printDebugger(['headers']),
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+            log_message('error', '[AUTH] recover error: {message}', ['message' => $e->getMessage()]);
+        }
+
+        // Always show the same message for security
+        return redirect()->to(base_url('login'))
+            ->with('auth_info', 'Se o e-mail existir, recebera instrucoes de recuperacao.');
+    }
 }

@@ -106,29 +106,22 @@
         recoverEmail?.addEventListener('input', clearField);
 
         recoverForm?.addEventListener('submit', (event) => {
-            event.preventDefault();
-            
             const emailValue = recoverEmail?.value.trim() || '';
 
             if (!emailValue) {
+                event.preventDefault();
                 setFieldError('Campo obrigatorio.');
                 return;
             }
             
             if (!emailPattern.test(emailValue)) {
+                event.preventDefault();
                 setFieldError('E-mail invalido.');
                 return;
             }
 
             clearField();
-
-            // Submit the form via fetch or regular submission
-            // For now, show success toast and close modal
-            closeRecoverModal();
-            
-            if (typeof showToast === 'function') {
-                showToast('Instrucoes de recuperacao enviadas para o seu e-mail.', 'success');
-            }
+            // Form will submit normally to the server
         });
 
         // Expose function globally so login page can call it
