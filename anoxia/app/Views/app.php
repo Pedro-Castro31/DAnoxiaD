@@ -18,10 +18,6 @@
             display: none;
         }
 
-        .app-mobile-inline {}
-
-        .app-mobile-block {}
-
         @media (min-width: 768px) {
             .app-desktop-only {
                 display: flex;
