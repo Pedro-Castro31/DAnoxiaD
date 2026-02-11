@@ -290,4 +290,116 @@ class Auth extends BaseController
         return redirect()->to(base_url('login'))
             ->with('auth_info', 'Se o e-mail existir, recebera instrucoes de recuperacao.');
     }
+
+    public function resetPassword()
+    {
+        log_message('debug', '[AUTH] resetPassword called. method={method}', [
+            'method' => $this->request->getMethod(),
+        ]);
+
+        $method = strtolower($this->request->getMethod());
+        $db = \Config\Database::connect();
+        $userModel = new User();
+
+        if ($method === 'get') {
+            $token = trim((string) $this->request->getGet('token'));
+
+            if ($token === '') {
+                return redirect()->to(base_url('login'))
+                    ->with('auth_error', 'Token invalido ou expirado.');
+            }
+
+            $tokenHash = hash('sha256', $token);
+            $now = date('Y-m-d H:i:s');
+            $reset = $db->table('password_resets')
+                ->where('token', $tokenHash)
+                ->where('expires_at >=', $now)
+                ->get()
+                ->getRow();
+
+            if (! $reset) {
+                return redirect()->to(base_url('login'))
+                    ->with('auth_error', 'Token invalido ou expirado.');
+            }
+
+            $user = $db->table($userModel->getUserTable())
+                ->select('id, email, name')
+                ->where('id', $reset->user_id)
+                ->get()
+                ->getRow();
+
+            if (! $user) {
+                return redirect()->to(base_url('login'))
+                    ->with('auth_error', 'Token invalido ou expirado.');
+            }
+
+            return view('pages/login_set_password', [
+                'token' => $token,
+                'email' => $user->email,
+            ]);
+        }
+
+        if ($method !== 'post') {
+            return redirect()->to(base_url('login'));
+        }
+
+        $token = trim((string) $this->request->getPost('token'));
+        $password = (string) $this->request->getPost('password');
+        $passwordConfirm = (string) $this->request->getPost('password_confirm');
+
+        if ($token === '') {
+            return redirect()->to(base_url('login'))
+                ->with('auth_error', 'Token invalido ou expirado.');
+        }
+
+        if ($password === '' || $passwordConfirm === '') {
+            return redirect()->back()
+                ->with('reset_error', 'Preencha todos os campos.');
+        }
+
+        if (strlen($password) < 8) {
+            return redirect()->back()
+                ->with('reset_error', 'A palavra-passe deve ter pelo menos 8 caracteres.');
+        }
+
+        if ($password !== $passwordConfirm) {
+            return redirect()->back()
+                ->with('reset_error', 'As palavras-passe nao coincidem.');
+        }
+
+        $tokenHash = hash('sha256', $token);
+        $now = date('Y-m-d H:i:s');
+        $reset = $db->table('password_resets')
+            ->where('token', $tokenHash)
+            ->where('expires_at >=', $now)
+            ->get()
+            ->getRow();
+
+        if (! $reset) {
+            return redirect()->to(base_url('login'))
+                ->with('auth_error', 'Token invalido ou expirado.');
+        }
+
+        try {
+            $db->table($userModel->getUserTable())
+                ->where('id', $reset->user_id)
+                ->update([
+                    'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+                ]);
+
+            $db->table('password_resets')
+                ->where('user_id', $reset->user_id)
+                ->delete();
+        } catch (\Throwable $e) {
+            log_message('error', '[AUTH] resetPassword update failed: {message}', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return redirect()->back()
+                ->with('reset_error', 'Erro ao atualizar a palavra-passe. Tente novamente.');
+        }
+
+        return redirect()->to(base_url('login'))
+            ->with('auth_info', 'Palavra-passe atualizada com sucesso.');
+    }
 }
