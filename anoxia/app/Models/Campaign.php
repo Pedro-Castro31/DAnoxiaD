@@ -22,14 +22,41 @@ class Campaign extends Model
 
 	public function getAllWithDm(): array
 	{
-		$campaigns = $this->builder()
-			->select('id, name, description, img_path, is_active')
-			->orderBy('id', 'asc')
+		$result = $this->getFilteredWithDm('', null, null, 1, 5000);
+		return $result['items'];
+	}
+
+	/**
+	 * @return array{items: array<int, object>, total: int, page: int, perPage: int}
+	 */
+	public function getFilteredWithDm(string $search, ?int $dmUserId, ?int $isActive, int $page, int $perPage): array
+	{
+		$page = max(1, $page);
+		$perPage = max(1, $perPage);
+		$offset = ($page - 1) * $perPage;
+
+		$base = $this->baseFilteredBuilder($search, $dmUserId, $isActive);
+		$totalRow = (clone $base)
+			->select('COUNT(DISTINCT campaign.id) AS total', false)
+			->get()
+			->getRow();
+		$total = (int) ($totalRow->total ?? 0);
+
+		$campaigns = (clone $base)
+			->select('campaign.id, campaign.name, campaign.description, campaign.img_path, campaign.is_active')
+			->groupBy('campaign.id')
+			->orderBy('campaign.id', 'DESC')
+			->limit($perPage, $offset)
 			->get()
 			->getResult();
 
 		if (empty($campaigns)) {
-			return [];
+			return [
+				'items' => [],
+				'total' => $total,
+				'page' => $page,
+				'perPage' => $perPage,
+			];
 		}
 
 		$campaignIds = [];
@@ -62,7 +89,51 @@ class Campaign extends Model
 			$campaign->dm_label = $names ? implode(' & ', $names) : 'N/A';
 		}
 
-		return $campaigns;
+		return [
+			'items' => $campaigns,
+			'total' => $total,
+			'page' => $page,
+			'perPage' => $perPage,
+		];
+	}
+
+	public function getDmOptions(): array
+	{
+		$userModel = new User();
+		$userTable = $userModel->getUserTable();
+
+		return $this->db->table('user_campaign uc')
+			->select('u.id, u.name, u.email')
+			->join($userTable . ' u', 'u.id = uc.user_id', 'inner')
+			->where('uc.is_dm', 1)
+			->groupBy('u.id')
+			->orderBy('u.name', 'ASC')
+			->get()
+			->getResult();
+	}
+
+	private function baseFilteredBuilder(string $search, ?int $dmUserId, ?int $isActive): \CodeIgniter\Database\BaseBuilder
+	{
+		$builder = $this->db->table($this->table);
+
+		if ($search !== '') {
+			$builder->groupStart()
+				->like('campaign.name', $search)
+				->orLike('campaign.description', $search)
+				->groupEnd();
+		}
+
+		if ($isActive !== null) {
+			$builder->where('campaign.is_active', $isActive);
+		}
+
+		if ($dmUserId !== null) {
+			$builder->join('user_campaign uc_filter', 'uc_filter.campaign_id = campaign.id', 'inner');
+			$builder->where('uc_filter.is_dm', 1);
+			$builder->where('uc_filter.user_id', $dmUserId);
+		}
+
+		return $builder;
 	}
 
 	public function createWithDm(string $name, string $description, string $dmEmail): array
