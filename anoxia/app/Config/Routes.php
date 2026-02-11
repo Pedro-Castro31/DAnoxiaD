@@ -14,6 +14,7 @@ $routes->get('dashboardtest', 'UserManager::index');
 $routes->get('campaigntest', 'CampaignManager::index');
 $routes->post('admin/users/create', 'UserManager::create');
 $routes->post('campaigns/create', 'CampaignManager::create');
+$routes->get('uploads/(:any)', 'Uploads::show/$1');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'Home::index');

@@ -20,6 +20,51 @@ class Campaign extends Model
 			->getResult();
 	}
 
+	public function getAllWithDm(): array
+	{
+		$campaigns = $this->builder()
+			->select('id, name, description, img_path, is_active')
+			->orderBy('id', 'asc')
+			->get()
+			->getResult();
+
+		if (empty($campaigns)) {
+			return [];
+		}
+
+		$campaignIds = [];
+		foreach ($campaigns as $campaign) {
+			$campaignIds[] = (int) $campaign->id;
+		}
+
+		$userModel = new User();
+		$userTable = $userModel->getUserTable();
+
+		$dmRows = $this->db->table('user_campaign')
+			->select('user_campaign.campaign_id, u.name')
+			->join($this->table, 'campaign.id = user_campaign.campaign_id', 'inner')
+			->join($userTable . ' u', 'u.id = user_campaign.user_id', 'inner')
+			->whereIn('user_campaign.campaign_id', $campaignIds)
+			->where('user_campaign.is_dm', 1)
+			->orderBy('u.name', 'asc')
+			->get()
+			->getResult();
+
+		$dmMap = [];
+		foreach ($dmRows as $row) {
+			$campaignId = (int) $row->campaign_id;
+			$dmMap[$campaignId][] = $row->name;
+		}
+
+		foreach ($campaigns as $campaign) {
+			$names = $dmMap[(int) $campaign->id] ?? [];
+			$campaign->dm_names = $names;
+			$campaign->dm_label = $names ? implode(' & ', $names) : 'N/A';
+		}
+
+		return $campaigns;
+	}
+
 	public function createWithDm(string $name, string $description, string $dmEmail): array
 	{
 		$db = $this->db;

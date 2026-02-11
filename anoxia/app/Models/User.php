@@ -68,6 +68,15 @@ class User extends Model
             ->getResult();
     }
 
+    public function getAllForSelect(): array
+    {
+        return $this->db->table($this->getUserTable())
+            ->select('id, name, email')
+            ->orderBy('name', 'asc')
+            ->get()
+            ->getResult();
+    }
+
     public function getDungeonMasterCount(): int
     {
         $row = $this->db->table('user_campaign')

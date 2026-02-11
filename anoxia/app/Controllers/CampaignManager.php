@@ -10,15 +10,10 @@ class CampaignManager extends BaseController
 	public function index(): string
 	{
 		$campaignModel = new Campaign();
-		$campaigns = $campaignModel->getAll();
+		$campaigns = $campaignModel->getAllWithDm();
 
 		$userModel = new User();
-		$users = $userModel->db
-			->table($userModel->getUserTable())
-			->select('id, name, email')
-			->orderBy('name', 'asc')
-			->get()
-			->getResult();
+		$users = $userModel->getAllForSelect();
 
 		return view('pages/campaign_dashboard', [
 			'campaigns' => $campaigns,
