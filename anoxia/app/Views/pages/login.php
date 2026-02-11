@@ -24,6 +24,7 @@ $authInfo = session()->getFlashdata('auth_info');
                     <img src="<?= base_url('assets/images/login/tavern.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
                     <img src="<?= base_url('assets/images/login/laboratorio.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
                     <img src="<?= base_url('assets/images/login/rapto.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
+                    <img src="<?= base_url('assets/images/login/encounter.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
                 </div>
                 <div class="absolute inset-0 bg-black/30"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
