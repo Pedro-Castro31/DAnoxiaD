@@ -72,7 +72,6 @@
                 <button onclick="closeLoginModal()" class="rounded px-2 py-0.5 text-2xl hover:bg-[#6a4328]">&times;</button>
             </div>
             <div class="mt-4">
-                <?= view('modals/login_modal') ?>
             </div>
         </div>
     </div>

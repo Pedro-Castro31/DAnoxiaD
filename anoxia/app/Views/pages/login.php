@@ -73,6 +73,7 @@ $authInfo = session()->getFlashdata('auth_info');
                                     name="password"
                                     placeholder="Introduza a sua palavra-passe"
                                     required
+                                    autocomplete="off"
                                     class="w-full rounded-lg border border-[#a87b4f]/35 bg-[#3e2718] px-3 py-2 pr-24 text-[#f5e5ca] placeholder:text-[#d0ae80] outline-none focus:ring-2 focus:ring-[#d5b078] transition"
                                 >
                                 <button
@@ -98,7 +99,7 @@ $authInfo = session()->getFlashdata('auth_info');
                                 >
                                 <span>Lembrar-me</span>
                             </label>
-                            <a href="#" class="text-[#d4b07a] hover:text-[#f6e8cd] transition">Recuperar acesso</a>
+                            <a href="#" id="openRecoverPasswordLink" class="text-[#d4b07a] hover:text-[#f6e8cd] transition">Recuperar acesso</a>
                         </div>
 
                         <button
@@ -114,6 +115,8 @@ $authInfo = session()->getFlashdata('auth_info');
     </main>
 
     <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex w-[320px] max-w-[90vw] flex-col gap-2"></div>
+
+    <?php include(APPPATH . 'Views/modals/recover_password.php'); ?>
 
     <script>
         (() => {
@@ -152,6 +155,15 @@ $authInfo = session()->getFlashdata('auth_info');
 
             if (authError) showToast(authError, 'danger');
             if (authInfo) showToast(authInfo, 'success');
+
+            // Open password recovery modal
+            const openRecoverPasswordLink = document.getElementById('openRecoverPasswordLink');
+            openRecoverPasswordLink?.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (typeof window.openRecoverPasswordModal === 'function') {
+                    window.openRecoverPasswordModal();
+                }
+            });
 
             const slides = document.querySelectorAll('[data-slide]');
             if (slides.length) {
