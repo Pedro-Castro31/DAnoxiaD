@@ -128,21 +128,28 @@ class Auth extends BaseController
         ]);
         helper('cookie');
 
-        $token = get_cookie('remember_token');
+        $session = session();
+        $userId = $session->get('user_id');
 
-        if ($token) {
+        // Delete all remember tokens for this user
+        if ($userId) {
             try {
-                $tokenHash = hash('sha256', $token);
                 $db = \Config\Database::connect();
-                $db->table('remember_tokens')->where('token_hash', $tokenHash)->delete();
+                $deleted = $db->table('remember_tokens')->where('user_id', $userId)->delete();
+                log_message('debug', '[AUTH] deleted {count} remember_tokens for user_id={id}', [
+                    'count' => (string) $deleted,
+                    'id' => (string) $userId,
+                ]);
             } catch (\Throwable $e) {
-                // Ignore remember-token cleanup errors.
+                log_message('error', '[AUTH] remember_token delete failed: {message}', [
+                    'message' => $e->getMessage(),
+                ]);
             }
-
-            delete_cookie('remember_token');
         }
 
-        $session = session();
+        // Delete the cookie
+        delete_cookie('remember_token');
+
         $session->destroy();
         log_message('debug', '[AUTH] session destroyed, redirecting to login');
 
