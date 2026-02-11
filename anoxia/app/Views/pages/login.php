@@ -21,11 +21,9 @@ $authInfo = session()->getFlashdata('auth_info');
         <section class="w-full overflow-hidden rounded-3xl border border-[#8d643d]/35 bg-[#5a3923]/65 shadow-[0_14px_34px_rgba(10,6,4,0.35)] md:grid md:grid-cols-2">
             <div class="relative hidden min-h-[560px] border-r border-[#8d643d]/35 md:block">
                 <div class="absolute inset-0">
-                    <img src="<?= base_url('assets/images/login/slide-1.png') ?>" alt="Pre-visualizacao do painel 1" class="slide-item h-full w-full object-cover opacity-100 transition duration-700" data-slide>
-                    <img src="<?= base_url('assets/images/login/slide-2.png') ?>" alt="Pre-visualizacao do painel 2" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
-                    <img src="<?= base_url('assets/images/login/slide-3.png') ?>" alt="Pre-visualizacao do painel 3" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
-                    <img src="<?= base_url('assets/images/login/slide-4.png') ?>" alt="Pre-visualizacao do painel 4" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
-                    <img src="<?= base_url('assets/images/login/slide-5.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
+                    <img src="<?= base_url('assets/images/login/tavern.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
+                    <img src="<?= base_url('assets/images/login/laboratorio.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
+                    <img src="<?= base_url('assets/images/login/rapto.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
                 </div>
                 <div class="absolute inset-0 bg-black/30"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
