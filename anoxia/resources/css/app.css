@@ -26,6 +26,15 @@
 }
 
 @layer base {
+  i[class^="ri-"],
+  i[class*=" ri-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1;
+  }
+
   input[type="checkbox"],
   input[type="radio"] {
     appearance: none;

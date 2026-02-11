@@ -83,8 +83,8 @@ $authInfo = session()->getFlashdata('auth_info');
                                     aria-label="Mostrar palavra-passe"
                                     title="Mostrar palavra-passe"
                                 >
-                                    <i id="eyeOpenIcon" class="ri-eye-line text-[18px] leading-none" aria-hidden="true"></i>
-                                    <i id="eyeClosedIcon" class="ri-eye-off-line hidden text-[18px] leading-none" aria-hidden="true"></i>
+                                    <i id="eyeOpenIcon" class="ri-eye-line text-[18px]" aria-hidden="true"></i>
+                                    <i id="eyeClosedIcon" class="ri-eye-off-line hidden text-[18px]" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <p id="passwordError" class="mt-1 hidden text-xs text-[#f6ccc3]"></p>
