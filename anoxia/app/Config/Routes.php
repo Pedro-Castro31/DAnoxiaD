@@ -12,6 +12,7 @@ $routes->get('auth/reset-password', 'Auth::resetPassword');
 $routes->post('auth/reset-password', 'Auth::resetPassword');
 $routes->get('dashboardtest', 'UserManager::index');
 $routes->get('campaigntest', 'CampaignManager::index');
+$routes->post('admin/users/create', 'UserManager::create');
 $routes->post('campaigns/create', 'CampaignManager::create');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
