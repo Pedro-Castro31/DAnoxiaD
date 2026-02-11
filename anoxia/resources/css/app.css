@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@source "../../app/Views/**/*.php";
+@source "../../app/Controllers/**/*.php";
+
+@theme {
+  --color-parchment: #efe2c6;
+  --color-parchment-dark: #e3d0aa;
+  --color-oak: #8b5e34;
+  --color-walnut: #5a3b22;
+  --color-umber: #3b2618;
+  --color-goldleaf: #c59a4a;
+
+  --font-royal: "Cinzel", "Times New Roman", serif;
+  --font-scribe: "Cormorant Garamond", "Garamond", serif;
+  --font-tavern: "Alegreya", "Georgia", serif;
+}
+
+@keyframes torch-flicker {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.torch-flicker {
+  animation: torch-flicker 1.8s ease-in-out infinite;
+}

@@ -138,3 +138,6 @@ _modules/*
 .history
 .ionide
 
+/results/
+/phpunit*.xml
+node_modules/
