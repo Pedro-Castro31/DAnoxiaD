@@ -1,3 +1,16 @@
+<?php
+$flashAuthError = session()->getFlashdata('auth_error');
+$flashAuthInfo = session()->getFlashdata('auth_info');
+$isDm = false;
+if (session()->get('logged_in') && session()->get('user_id')) {
+    try {
+        $userModel = new \App\Models\User();
+        $isDm = $userModel->hasDmCampaignRole((int) session()->get('user_id'));
+    } catch (\Throwable $e) {
+        $isDm = false;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -39,6 +52,14 @@
                 <img src="<?= base_url('assets/images/logo.png') ?>" alt="Anoxia" class="h-9 w-auto">
             </a>
 
+            <nav class="app-desktop-only items-center gap-2">
+                <?php if ($isDm): ?>
+                    <a href="<?= base_url('campaigns') ?>" class="inline-flex items-center rounded-lg border border-[#8e653f] bg-[#6f4929] px-3 py-1.5 text-sm font-semibold text-[#f3e2c7] transition hover:bg-[#7e5430]">
+                        Campanhas
+                    </a>
+                <?php endif; ?>
+            </nav>
+
             <div class="app-desktop-only relative items-center gap-3">
                 <button
                     type="button"
@@ -58,7 +79,9 @@
                     class="absolute right-0 top-12 z-40 hidden w-48 rounded-xl border border-[#8b633f]/30 bg-[#2b1c13]/95 p-2 shadow-lg backdrop-blur-sm"
                 >
                     <div class="mb-2 px-3 py-2">
-                        <p class="text-xs uppercase tracking-wide text-[#caa679]">Utilizador</p>
+                        <p class="text-xs uppercase tracking-wide text-[#caa679]">
+                            <?= (int) (session()->get('is_admin') ?? 0) === 1 ? 'admin' : 'player' ?>
+                        </p>
                         <p class="mt-0.5 truncate text-sm font-semibold text-[#f3e2c7]">
                             <?= esc((string) (session()->get('user_name') ?? 'Utilizador')) ?>
                         </p>
@@ -107,6 +130,11 @@
             </button>
         </div>
         <div class="mt-6 space-y-3">
+            <?php if ($isDm): ?>
+                <a href="<?= base_url('campaigns') ?>" class="inline-flex rounded-lg border border-[#8e653f] bg-[#6f4929] px-4 py-2 text-sm font-semibold text-[#f3e2c7] transition hover:bg-[#7e5430]">
+                    Campanhas
+                </a>
+            <?php endif; ?>
             <a href="<?= base_url('auth/logout') ?>" class="inline-flex rounded-lg border border-[#8e653f] bg-[#6f4929] px-4 py-2 text-sm font-semibold text-[#f3e2c7] transition hover:bg-[#7e5430]">
                 Terminar sessão
             </a>
@@ -118,8 +146,46 @@
         <?= $content ?? '' ?>
     </main>
 
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex w-[320px] max-w-[90vw] flex-col gap-2"></div>
+
     <script>
         (() => {
+            const toastContainer = document.getElementById('toastContainer');
+            const flashAuthError = <?= json_encode($flashAuthError) ?>;
+            const flashAuthInfo = <?= json_encode($flashAuthInfo) ?>;
+
+            const showToast = (message, type = 'danger') => {
+                if (!toastContainer || !message) return;
+
+                const toastStyles = {
+                    success: 'border-[#6f9b5a] bg-[#d8edce] text-[#264a1e]',
+                    warning: 'border-[#b4895f] bg-[#f3e0b6] text-[#5c3a1a]',
+                    danger: 'border-[#b66b5a] bg-[#f3cbc2] text-[#5f1f19]',
+                    info: 'border-[#8d643d] bg-[#4b301d] text-[#f0ddbf]',
+                };
+
+                const toast = document.createElement('div');
+                toast.className = `rounded-lg border px-4 py-3 text-sm shadow-lg transition ${toastStyles[type] || toastStyles.danger}`;
+                toast.innerHTML = `
+                    <div class="flex items-start justify-between gap-3">
+                        <span>${message}</span>
+                        <button class="toast-close rounded px-2 py-0.5 font-semibold hover:opacity-80">x</button>
+                    </div>
+                `;
+                toastContainer.appendChild(toast);
+
+                const remove = () => {
+                    toast.classList.add('opacity-0', 'translate-x-2');
+                    setTimeout(() => toast.remove(), 180);
+                };
+
+                toast.querySelector('.toast-close')?.addEventListener('click', remove);
+                setTimeout(remove, 5000);
+            };
+
+            if (flashAuthError) showToast(flashAuthError, 'danger');
+            if (flashAuthInfo) showToast(flashAuthInfo, 'success');
+
             const openBtn = document.getElementById('mobileMenuButton');
             const closeBtn = document.getElementById('mobileMenuClose');
             const offcanvas = document.getElementById('mobileOffcanvas');

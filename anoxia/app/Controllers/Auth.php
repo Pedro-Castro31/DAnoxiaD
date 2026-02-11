@@ -80,11 +80,15 @@ class Auth extends BaseController
 
         $session = session();
         $session->regenerate();
+        $isDm = $userModel->hasDmCampaignRole((int) $result->id);
+        $role = $userModel->resolveRole($result);
         $session->set([
             'user_id' => $result->id,
             'user_name' => $result->name,
             'user_email' => $result->email,
-            'is_admin' => (int) $result->is_admin,
+            'is_admin' => (int) ($result->is_admin ?? 0),
+            'is_dm' => $isDm ? 1 : 0,
+            'role' => $role,
             'logged_in' => true,
         ]);
         log_message('debug', '[AUTH] login success user_id={id} email={email}', [

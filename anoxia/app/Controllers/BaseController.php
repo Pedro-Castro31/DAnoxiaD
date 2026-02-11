@@ -69,11 +69,15 @@ abstract class BaseController extends Controller
 
                         if ($user) {
                             // Recreate session.
+                            $isDm = $userModel->hasDmCampaignRole((int) $user->id);
+                            $role = $userModel->resolveRole($user);
                             $session->set([
                                 'user_id' => $user->id,
                                 'user_name' => $user->name,
                                 'user_email' => $user->email,
-                                'is_admin' => $user->is_admin,
+                                'is_admin' => (int) ($user->is_admin ?? 0),
+                                'is_dm' => $isDm ? 1 : 0,
+                                'role' => $role,
                                 'logged_in' => true
                             ]);
                         }

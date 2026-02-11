@@ -14,6 +14,7 @@ $routes->post('auth/reset-password', 'Auth::resetPassword');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'Home::index');
+    $routes->get('campaigns', 'Campaigns::index');
     $routes->get('auth/logout', 'Auth::logout');
     $routes->get('auth/test', static function () {
         log_message('info', 'Test route hit');
