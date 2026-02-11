@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
+
 class Home extends BaseController
 {
     public function index(): string
@@ -9,7 +11,8 @@ class Home extends BaseController
         $db = \Config\Database::connect();
         
         try {
-            $users = $db->table('app_user')->get()->getResult();
+            $userModel = new User();
+            $users = $db->table($userModel->getUserTable())->get()->getResult();
             $data['users'] = $users;
             $data['db_status'] = 'Connected';
         } catch (\Exception $e) {

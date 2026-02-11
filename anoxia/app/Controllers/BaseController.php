@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -48,32 +49,37 @@ abstract class BaseController extends Controller
             $token = get_cookie('remember_token');
             
             if ($token) {
-                $tokenHash = hash('sha256', $token);
-                
-                $db = \Config\Database::connect();
-                $record = $db->table('remember_tokens')
-                    ->where('token_hash', $tokenHash)
-                    ->where('expires_at >', date('Y-m-d H:i:s'))
-                    ->get()
-                    ->getRow();
-                
-                if ($record) {
-                    // Get user details
-                    $user = $db->table('users')
-                        ->where('id', $record->user_id)
+                try {
+                    $tokenHash = hash('sha256', $token);
+
+                    $db = \Config\Database::connect();
+                    $record = $db->table('remember_tokens')
+                        ->where('token_hash', $tokenHash)
+                        ->where('expires_at >', date('Y-m-d H:i:s'))
                         ->get()
                         ->getRow();
-                    
-                    if ($user) {
-                        // Recreate session
-                        $session->set([
-                            'user_id' => $user->id,
-                            'user_name' => $user->name,
-                            'user_email' => $user->email,
-                            'is_admin' => $user->is_admin,
-                            'logged_in' => true
-                        ]);
+
+                    if ($record) {
+                        // Get user details.
+                        $userModel = new User();
+                        $user = $db->table($userModel->getUserTable())
+                            ->where('id', $record->user_id)
+                            ->get()
+                            ->getRow();
+
+                        if ($user) {
+                            // Recreate session.
+                            $session->set([
+                                'user_id' => $user->id,
+                                'user_name' => $user->name,
+                                'user_email' => $user->email,
+                                'is_admin' => $user->is_admin,
+                                'logged_in' => true
+                            ]);
+                        }
                     }
+                } catch (\Throwable $e) {
+                    // Ignore remember-me failures to prevent request crashes.
                 }
             }
         }

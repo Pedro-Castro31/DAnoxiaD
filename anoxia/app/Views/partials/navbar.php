@@ -17,9 +17,9 @@
                     </a>
                 </div>
             <?php else: ?>
-                <button onclick="openLoginModal()" class="rounded-lg border border-[#d4b07a] bg-[#c89b60] px-4 py-2 font-semibold text-[#2d1c12] hover:bg-[#dbb780] transition">
+                <a href="<?= base_url('login') ?>" class="rounded-lg border border-[#d4b07a] bg-[#c89b60] px-4 py-2 font-semibold text-[#2d1c12] hover:bg-[#dbb780] transition">
                     Login
-                </button>
+                </a>
             <?php endif; ?>
         </div>
     </div>

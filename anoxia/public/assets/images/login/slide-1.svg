@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Fortress at dawn">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8b47e"/>
+      <stop offset="55%" stop-color="#9a6a42"/>
+      <stop offset="100%" stop-color="#3d2719"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <circle cx="920" cy="170" r="70" fill="#f2ddbd" opacity="0.85"/>
+  <path d="M0 590 C180 530 340 630 520 590 C680 555 790 640 980 600 C1070 580 1140 610 1200 590 L1200 800 L0 800 Z" fill="#5a3924"/>
+  <rect x="470" y="300" width="260" height="260" fill="#6f482c"/>
+  <rect x="445" y="340" width="50" height="220" fill="#7a5131"/>
+  <rect x="705" y="340" width="50" height="220" fill="#7a5131"/>
+  <rect x="560" y="360" width="80" height="200" fill="#3a2417"/>
+  <polygon points="470,300 600,220 730,300" fill="#8d643d"/>
+  <rect x="440" y="320" width="320" height="18" fill="#9f764a"/>
+  <path d="M560 520 h80 v40 h-80 z" fill="#caa679"/>
+</svg>
