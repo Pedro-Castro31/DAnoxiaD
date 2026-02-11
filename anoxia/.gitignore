@@ -141,3 +141,9 @@ _modules/*
 /results/
 /phpunit*.xml
 node_modules/
+
+#-------------------------
+# Migrations
+#-------------------------
+app/Database/Migrations/*.php
+!app/Database/Migrations/.gitkeep
