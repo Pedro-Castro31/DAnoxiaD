@@ -13,280 +13,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;700;800&family=Cinzel:wght@500;700;800&family=Cormorant+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/character-sheet-mobile.css') ?>">
-    <style>
-        /* ─── Slider panel ─────────────────────────────────────────────── */
-        #profSlider {
-            transform: translateX(-100%);
-            transition: transform 260ms cubic-bezier(.4, 0, .2, 1);
-        }
-        #profSlider.slider-open {
-            transform: translateX(0);
-        }
-
-        /* ─── Slider handle arrow ──────────────────────────────────────── */
-        #sliderHandle .handle-icon {
-            transition: transform 260ms cubic-bezier(.4, 0, .2, 1);
-        }
-        #sliderHandle.slider-open .handle-icon {
-            transform: rotate(180deg);
-        }
-
-        /* ─── Toggle circle ────────────────────────────────────────────── */
-        .toggle-circ {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid #a87b4f;
-            background: transparent;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: background 150ms, border-color 150ms;
-            padding: 0;
-        }
-        .toggle-circ.is-active {
-            background: #c89b60;
-            border-color: #d4b07a;
-        }
-        .toggle-circ:focus-visible {
-            outline: 2px solid #d4b07a;
-            outline-offset: 2px;
-        }
-
-        /* ─── Death save circles (larger) ─────────────────────────────── */
-        .toggle-circ-sm {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ─── Modifier oval ────────────────────────────────────────────── */
-        .modifier-input {
-            width: 44px;
-            height: 26px;
-            border-radius: 9999px;
-            border: 1px solid rgba(168, 123, 79, 0.45);
-            background: #3e2718;
-            color: #f5e5ca;
-            font-size: 0.75rem;
-            text-align: center;
-            outline: none;
-        }
-        .modifier-input:focus {
-            box-shadow: 0 0 0 2px #d5b078;
-        }
-
-        /* ─── Compact attribute input ──────────────────────────────────── */
-        .attr-value-input {
-            width: 48px;
-            height: 40px;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(168, 123, 79, 0.45);
-            background: #3e2718;
-            color: #f5e5ca;
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-align: center;
-            outline: none;
-        }
-        .attr-value-input:focus {
-            box-shadow: 0 0 0 2px #d5b078;
-        }
-
-        /* ─── Small inline input ───────────────────────────────────────── */
-        .sm-input {
-            width: 40px;
-            border-radius: 0.375rem;
-            border: 1px solid rgba(168, 123, 79, 0.35);
-            background: #3e2718;
-            color: #f5e5ca;
-            font-size: 0.75rem;
-            text-align: center;
-            padding: 2px 4px;
-            outline: none;
-        }
-        .sm-input:focus {
-            box-shadow: 0 0 0 2px #d5b078;
-        }
-
-        /* ─── Sheet input (regular full-width) ─────────────────────────── */
-        .sheet-input {
-            border-radius: 0.5rem;
-            border: 1px solid rgba(168, 123, 79, 0.35);
-            background: #3e2718;
-            color: #f5e5ca;
-            font-size: 0.8125rem;
-            padding: 4px 8px;
-            outline: none;
-            width: 100%;
-        }
-        .sheet-input:focus {
-            box-shadow: 0 0 0 2px #d5b078;
-        }
-        .sheet-input::placeholder {
-            color: #9e7c56;
-        }
-
-        /* ─── Rolling textarea (expand to content) ─────────────────────── */
-        .auto-textarea {
-            resize: none;
-            overflow: hidden;
-            min-height: 28px;
-        }
-
-        /* ─── Table row styles ─────────────────────────────────────────── */
-        .dyn-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.75rem;
-        }
-        .dyn-table thead th {
-            background: #6f4928;
-            color: #f8eedc;
-            padding: 5px 8px;
-            text-align: left;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .dyn-table tbody td {
-            background: #3c2618;
-            color: #f0ddbf;
-            padding: 4px 6px;
-            border-top: 1px solid rgba(127, 89, 56, 0.3);
-            vertical-align: top;
-        }
-        .dyn-table tbody tr:hover td {
-            background: #452b1b;
-        }
-
-        /* ─── Section title bar ──────────────────────────────────────────  */
-        .section-title {
-            font-size: 0.6rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #c4a060;
-            text-align: center;
-            margin-top: 2px;
-        }
-
-        /* ─── Sheet scrollbar ────────────────────────────────────────────  */
-        .sheet-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sheet-scroll::-webkit-scrollbar-track {
-            background: #2b1c13;
-        }
-        .sheet-scroll::-webkit-scrollbar-thumb {
-            background: #6f4929;
-            border-radius: 2px;
-        }
-
-        /* ─── Page sizing & safe scrolling ──────────────────────────────  */
-        html, body {
-            min-height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        /* ─── Sheet wrapper below navbar ────────────────────────────────  */
-        .sheet-wrapper {
-            display: flex;
-            min-height: calc(100dvh - 60px);
-            overflow: hidden;
-        }
-
-        /* ─── iOS momentum scroll on all scroll areas ────────────────────  */
-        .sheet-scroll {
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* ─── Dynamic table consistency ─────────────────────────────────  */
-        .dyn-table-scroll {
-            table-layout: fixed;
-        }
-        .dyn-table th:last-child,
-        .dyn-table td:last-child {
-            width: 2.25rem;
-            text-align: center;
-        }
-        .dyn-table td .sheet-input,
-        .dyn-table td .sm-input,
-        .dyn-table td .auto-textarea {
-            width: 100%;
-        }
-
-        /* ─── Slider backdrop (closes on outside click) ──────────────────  */
-        #sliderBackdrop {
-            display: none;
-            position: absolute;
-            inset: 0;
-            z-index: 15;
-            background: rgba(0, 0, 0, 0);
-        }
-        #sliderBackdrop.active {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('assets/css/character-sheet.css') ?>">
 </head>
 <body class="character-sheet-page bg-[#2f1e14] text-[#f4e3c8] font-tavern">
     <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,#70472a_0%,#4b301f_42%,#2a1a12_100%)] pointer-events-none"></div>
 
-    <!-- ══════════════════════════════════════════════════════════════════
-         NAVBAR
-    ══════════════════════════════════════════════════════════════════════ -->
-    <header class="sticky top-0 z-30 border-b border-[#8b633f]/30 bg-[#2b1c13]/90 backdrop-blur-sm" style="height:60px">
-        <div class="flex h-full items-center justify-between px-4">
-            <a href="<?= base_url('/') ?>" class="inline-flex items-center gap-2">
-                <img src="<?= base_url('assets/images/logo.png') ?>" alt="Anoxia" class="h-9 w-auto"
-                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                <span style="display:none" class="font-royal text-lg tracking-[0.18em] text-[#e6cca0]">ANOXIA</span>
-            </a>
+    <?php include(APPPATH . 'Views/partials/navbar.php'); ?>
 
-            <div class="flex items-center gap-2">
-                <!-- Character sheet label -->
-                <span class="rounded-full border border-[#9d7550] bg-[#6d4628] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide">Character Sheet</span>
-
-                <!-- Avatar / user menu (desktop) -->
-                <div class="relative hidden sm:block">
-                    <button type="button" id="avatarMenuButton"
-                            class="inline-flex items-center gap-2 rounded-full border border-[#9d7550] bg-[#6d4628] px-2 py-1 text-sm font-semibold text-[#f3e2c7] transition hover:bg-[#7a5232]"
-                            aria-expanded="false" aria-label="Abrir menu do utilizador">
-                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#b4895f] bg-[#5a3923]">
-                            <?= esc(strtoupper(substr((string)(session()->get('user_name') ?? 'U'), 0, 1))) ?>
-                        </span>
-                        <i class="ri-arrow-down-s-line text-base" aria-hidden="true"></i>
-                    </button>
-                    <div id="avatarDropdown"
-                         class="absolute right-0 top-12 z-40 hidden w-48 rounded-xl border border-[#8b633f]/30 bg-[#2b1c13]/95 p-2 shadow-lg backdrop-blur-sm">
-                        <div class="mb-2 px-3 py-2">
-                            <p class="text-[10px] uppercase tracking-wide text-[#caa679]">Utilizador</p>
-                            <p class="mt-0.5 truncate text-sm font-semibold text-[#f3e2c7]">
-                                <?= esc((string)(session()->get('user_name') ?? 'Utilizador')) ?>
-                            </p>
-                        </div>
-                        <a href="<?= base_url('auth/logout') ?>"
-                           class="inline-flex w-full items-center gap-2 rounded-lg border border-[#8e653f] bg-[#6f4929] px-3 py-2 text-sm font-semibold text-[#f3e2c7] transition hover:bg-[#7e5430]">
-                            <i class="ri-logout-box-r-line text-base" aria-hidden="true"></i>
-                            <span>Terminar sessão</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Mobile menu trigger -->
-                <button type="button" id="mobileMenuButton"
-                        class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-[#8e653f] bg-[#6f4929] text-[#f3e2c7] transition hover:bg-[#7e5430] sm:hidden"
-                        aria-label="Abrir menu">
-                    <i class="ri-menu-line text-lg" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-<!-- ── Character info header ────────────────────── -->
-                <div class="rounded-2xl border border-[#8d643d]/35 bg-[#5a3923]/65 px-2 py-1 overflow-x-auto">
-                    <table style="border-collapse:collapse;width:100%">
+<main class="character-sheet-main">
+    <!-- ── Character info header ────────────────────── -->
+    <section class="rounded-2xl border border-[#8d643d]/35 bg-[#5a3923]/65 px-2 py-1 overflow-x-auto">
+                    <table class="character-info-table">
                         <thead>
                             <tr>
                                 <th class="pb-0.5 pr-1 text-[2px] font-semibold uppercase tracking-wide text-[#c4a060] whitespace-nowrap text-left">Name</th>
@@ -298,19 +35,19 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="pr-1 pb-1"><input type="text" placeholder="Name" style="min-width:60px;font-size:0.7rem" class="sheet-input font-semibold" aria-label="Character name"></td>
-                                <td class="pr-1 pb-1"><input type="text" placeholder="Fighter 1" style="min-width:52px;font-size:0.7rem" class="sheet-input" aria-label="Class and level"></td>
-                                <td class="pr-1 pb-1"><input type="text" placeholder="Human" style="min-width:44px;font-size:0.7rem" class="sheet-input" aria-label="Race"></td>
-                                <td class="pr-1 pb-1"><input type="text" placeholder="Soldier" style="min-width:44px;font-size:0.7rem" class="sheet-input" aria-label="Background"></td>
-                                <td class="pb-1"><input type="text" placeholder="Neutral" style="min-width:52px;font-size:0.7rem" class="sheet-input" aria-label="Alignment"></td>
+                                <td class="pr-1 pb-1"><input type="text" placeholder="Name" class="sheet-input character-info-input character-info-name font-semibold" aria-label="Character name"></td>
+                                <td class="pr-1 pb-1"><input type="text" placeholder="Fighter 1" class="sheet-input character-info-input character-info-class" aria-label="Class and level"></td>
+                                <td class="pr-1 pb-1"><input type="text" placeholder="Human" class="sheet-input character-info-input character-info-race" aria-label="Race"></td>
+                                <td class="pr-1 pb-1"><input type="text" placeholder="Soldier" class="sheet-input character-info-input character-info-bg" aria-label="Background"></td>
+                                <td class="pb-1"><input type="text" placeholder="Neutral" class="sheet-input character-info-input character-info-align" aria-label="Alignment"></td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+    </section>
 
     <!-- Mobile offcanvas -->
     <div id="mobileBackdrop" class="fixed inset-0 z-40 hidden bg-black/60"></div>
-    <aside id="mobileOffcanvas"
+    <div id="mobileOffcanvas"
            class="pointer-events-none fixed right-0 top-0 z-50 h-full w-64 translate-x-full border-l border-[#8b633f]/30 bg-[#2b1c13] p-5 transition-transform duration-200 sm:hidden">
         <div class="flex items-center justify-between">
             <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#9d7550] bg-[#6d4628] text-sm font-semibold">
@@ -327,17 +64,17 @@
                 <i class="ri-logout-box-r-line" aria-hidden="true"></i> Terminar sessão
             </a>
         </div>
-    </aside>
+    </div>
 
     <!-- ══════════════════════════════════════════════════════════════════
          CHARACTER SHEET   –   TWO-COLUMN LAYOUT
     ══════════════════════════════════════════════════════════════════════ -->
-    <div class="sheet-wrapper">
+    <section class="sheet-wrapper">
 
         <!-- ────────────────────────────────────────────────────────────
              LEFT COLUMN – "Coluna dos Atributos"  (always visible)
         ──────────────────────────────────────────────────────────────── -->
-        <aside class="relative z-10 flex w-[88px] flex-shrink-0 flex-col gap-1.5 overflow-y-auto sheet-scroll bg-[#2b1c13]/60 border-r border-[#8b633f]/30 px-1.5 py-2">
+        <section class="attr-sidebar relative z-30 flex w-[88px] flex-shrink-0 flex-col gap-1.5 overflow-y-auto sheet-scroll bg-[#2b1c13]/60 border-r border-[#8b633f]/30 px-1.5 py-2">
 
             <!-- Inspiration button -->
             <button type="button"
@@ -357,7 +94,7 @@
             ];
             foreach ($attrs as [$abbr, $full]):
             ?>
-            <div class="rounded-xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-1.5 flex flex-col items-center gap-1">
+            <article class="rounded-xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-1.5 flex flex-col items-center gap-1">
                 <p class="section-title w-full"><?= $abbr ?></p>
                 <input type="number" min="1" max="30" placeholder="10"
                        class="attr-value-input"
@@ -365,28 +102,27 @@
                 <input type="text" placeholder="+0"
                        class="modifier-input"
                        aria-label="<?= $full ?> modifier">
-                <p class="section-title w-full" style="font-size:0.5rem"><?= strtoupper($full) ?></p>
-            </div>
+                <p class="section-title section-title-xs w-full"><?= strtoupper($full) ?></p>
+            </article>
             <?php endforeach; ?>
 
             <!-- ── Slider handle ──────────────────────────────────── -->
-            <button type="button" id="sliderHandle"
-                    onclick="toggleSlider()"
+            <button type="button" id="sliderHandle" data-action="toggle-prof-slider"
                     title="Abrir Proficiências"
                     class="mt-auto w-full rounded-lg border border-[#8e653f] bg-[#6f4929] py-2 text-[#f3e2c7] transition hover:bg-[#7e5430] flex flex-col items-center gap-0.5">
                 <i class="handle-icon ri-menu-unfold-line text-base" aria-hidden="true"></i>
                 <span class="text-[8px] uppercase tracking-wide leading-none">Prof.</span>
             </button>
 
-        </aside><!-- /attr col -->
+        </section><!-- /attr col -->
 
         <!-- ────────────────────────────────────────────────────────────
              CONTENT WRAPPER  (main + slider overlay)
         ──────────────────────────────────────────────────────────────── -->
-        <div class="relative h-full flex-1 overflow-hidden">
+        <div class="sheet-content-wrapper relative flex-1">
 
             <!-- Backdrop – closes slider when tapping outside -->
-            <div id="sliderBackdrop" onclick="toggleSlider()"></div>
+            <div id="sliderBackdrop"></div>
 
             <!-- ════════════════════════════════════════════════════════
                  SLIDER OVERLAY – "Proficiências"
@@ -397,7 +133,7 @@
                 <!-- Header row -->
                 <div class="flex items-center justify-between mb-3">
                     <p class="font-royal text-lg text-[#f3e1c3]">Proficiências</p>
-                    <button type="button" onclick="toggleSlider()"
+                    <button type="button" data-action="toggle-prof-slider"
                             class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#8e653f] bg-[#6f4929] text-[#f3e2c7] hover:bg-[#7e5430] transition">
                         <i class="ri-close-line text-base" aria-hidden="true"></i>
                     </button>
@@ -487,14 +223,86 @@
             </aside><!-- /profSlider -->
 
             <!-- ════════════════════════════════════════════════════════
+                 RIGHT SLIDER OVERLAY – "Character Panels"
+            ════════════════════════════════════════════════════════════ -->
+            <aside id="charSlider"
+                   class="absolute inset-0 z-20 overflow-y-auto sheet-scroll bg-[#2b1c13] border-l border-[#8b633f]/40 px-3 py-3">
+
+                <div class="flex items-center justify-between mb-3">
+                    <p class="font-royal text-lg text-[#f3e1c3]">Character Panels</p>
+                    <button type="button" data-action="toggle-char-slider"
+                            class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#8e653f] bg-[#6f4929] text-[#f3e2c7] hover:bg-[#7e5430] transition">
+                        <i class="ri-close-line text-base" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <section class="flex flex-col gap-2">
+
+                    <section class="md:grid gap-2 md:grid-cols-2">
+                        <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                            <textarea class="sheet-input character-appearance-fixed"
+                                      placeholder="Character appearance..."
+                                      aria-label="Character appearance"></textarea>
+                            <p class="section-title section-title-xs">Character Appearance</p>
+                        </article>
+
+                        <div class="grid gap-2 char-panels-grid">
+                            <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                                <textarea class="sheet-input sheet-notes-textarea notes-min-300"
+                                          placeholder="Allies, contacts, organizations..."
+                                          aria-label="Allies and organizations"></textarea>
+                                <p class="section-title section-title-xs">Allies &amp; Organizations</p>
+                            </article>
+
+                            <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                                <input type="text" class="sheet-input" placeholder="Name" aria-label="Symbol name">
+                                <textarea class="sheet-input symbol-notes-textarea"
+                                          placeholder="Symbol notes..."
+                                          aria-label="Character symbol"></textarea>
+                                <p class="section-title section-title-xs">Symbol</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="md:grid gap-2 md:grid-cols-2">
+                        <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                            <textarea class="sheet-input sheet-notes-textarea notes-min-360"
+                                      placeholder="Character backstory..."
+                                      aria-label="Character backstory"></textarea>
+                            <p class="section-title section-title-xs">Character Backstory</p>
+                        </article>
+
+                        <div class="flex flex-col gap-2">
+                            <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                                <textarea class="sheet-input sheet-notes-textarea notes-min-210"
+                                          placeholder="Additional features and traits..."
+                                          aria-label="Additional features and traits"></textarea>
+                                <p class="section-title section-title-xs">Additional Features &amp; Traits</p>
+                            </article>
+
+                            <article class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 p-2 flex flex-col gap-1">
+                                <textarea class="sheet-input sheet-notes-textarea notes-min-140"
+                                          placeholder="Treasure, valuables, special items..."
+                                          aria-label="Treasure"></textarea>
+                                <p class="section-title section-title-xs">Treasure</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <div class="h-3"></div>
+                </section>
+
+            </aside><!-- /charSlider -->
+
+            <!-- ════════════════════════════════════════════════════════
                  MAIN CONTENT AREA
             ════════════════════════════════════════════════════════════ -->
-            <div class="sheet-main-scroll h-full overflow-y-auto sheet-scroll px-2 py-2 flex flex-col gap-2">
+            <section class="sheet-main-scroll sheet-scroll px-2 py-2 flex flex-col gap-2">
 
                 
 
                 <!-- ── Top stats: AC / Initiative / Speed ────────── -->
-                <div class="flex flex-row gap-2">
+                <section class="flex flex-row gap-2" aria-label="Top stats">
                     <?php
                     $topStats = [
                         ['AC', 'Armor Class'],
@@ -503,20 +311,20 @@
                     ];
                     foreach ($topStats as [$short, $label]):
                     ?>
-                    <div class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-1.5 flex flex-col items-center gap-0.5">
+                    <article class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-1.5 flex flex-col items-center gap-0.5">
                         <input type="number" placeholder="—"
                                class="w-8 rounded-md border border-[#a87b4f]/35 bg-[#3e2718] text-center text-sm font-bold text-[#f5e5ca] outline-none focus:ring-2 focus:ring-[#d5b078] py-0.5"
                                aria-label="<?= $label ?>">
-                        <p class="section-title" style="font-size:0.55rem"><?= $short ?></p>
-                    </div>
+                        <p class="section-title section-title-top-stat"><?= $short ?></p>
+                    </article>
                     <?php endforeach; ?>
-                </div>
+                </section>
 
                 <!-- ── HP Section ─────────────────────────────────── -->
-                <div class="flex flex-row gap-2">
+                <section class="flex flex-row gap-2" aria-label="Hit points and death saves">
 
                     <!-- HP atual / max -->
-                    <div class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-2 flex flex-col items-center gap-1">
+                    <article class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-2 flex flex-col items-center gap-1">
                         <div class="flex items-center gap-0.5 w-full justify-center">
                             <input type="number" placeholder="—"
                                    class="w-9 rounded-md border border-[#a87b4f]/35 bg-[#3e2718] text-center text-sm font-bold text-[#f5e5ca] outline-none focus:ring-2 focus:ring-[#d5b078] py-0.5"
@@ -527,18 +335,18 @@
                                    aria-label="HP max">
                         </div>
                         <p class="section-title">HP / Max</p>
-                    </div>
+                    </article>
 
                     <!-- Temp HP -->
-                    <div class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-2 flex flex-col items-center gap-1">
+                    <article class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-2 flex flex-col items-center gap-1">
                         <input type="number" placeholder="—"
                                class="w-9 rounded-lg border border-[#a87b4f]/35 bg-[#3e2718] text-center text-sm font-bold text-[#f5e5ca] outline-none focus:ring-2 focus:ring-[#d5b078] py-0.5"
                                aria-label="HP temporário">
                         <p class="section-title">Temp HP</p>
-                    </div>
+                    </article>
 
                     <!-- Death Saves -->
-                    <div class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-1.5 flex flex-col gap-1">
+                    <article class="flex-1 rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 px-2 py-1.5 flex flex-col gap-1">
                         <p class="section-title">Death Saves</p>
                         <div class="flex items-center justify-between gap-0.5">
                             <span class="text-[8px] text-[#c5e0b5] uppercase leading-none">S</span>
@@ -556,18 +364,21 @@
                                 <button type="button" class="toggle-circ toggle-circ-sm" aria-label="Failure 3"></button>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                </div><!-- /hp section -->
+                </section><!-- /hp section -->
 
-                <!-- ── Attacks & Spellcasting ─────────────────────── -->
-                <div class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
-                    <div class="px-3 py-2 border-b border-[#7f5938]/35">
-                        <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Attacks &amp; Spellcasting</p>
+                <!-- ── Attacks ─────────────────────────────────────── -->
+                <section class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
+                    <div class="px-3 py-2 border-b border-[#7f5938]/35 flex items-center justify-between gap-2">
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Attacks</p>
+                    <button type="button" data-add-row="attack"
+                                class="text-base leading-none font-semibold text-[#f3e2c7] hover:text-[#ffffff] transition"
+                                aria-label="Adicionar ataque">+</button>
                     </div>
 
                     <!-- Attacks table -->
-                    <div class="overflow-x-auto">
+                    <div class="dyn-table-frame dyn-table-frame-attacks">
                         <table class="dyn-table dyn-table-scroll">
                             <thead>
                                 <tr>
@@ -582,15 +393,19 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="px-3 py-2 border-b border-[#7f5938]/30">
-                        <button type="button" onclick="addAttackRow()"
-                                class="rounded-md border border-[#8e653f] bg-[#6f4929] px-3 py-1 text-[11px] font-semibold text-[#f3e2c7] hover:bg-[#7e5430] transition">
-                            + Adicionar Ataque
-                        </button>
+                </section><!-- /attacks -->
+
+                <!-- ── Spellcasting ───────────────────────────────── -->
+                <section class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
+                    <div class="px-3 py-2 border-b border-[#7f5938]/35 flex items-center justify-between gap-2">
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Spellcasting</p>
+                    <button type="button" data-add-row="spell"
+                                class="text-base leading-none font-semibold text-[#f3e2c7] hover:text-[#ffffff] transition"
+                                aria-label="Adicionar spell">+</button>
                     </div>
 
                     <!-- Spells table -->
-                    <div class="overflow-x-auto">
+                    <div class="dyn-table-frame dyn-table-frame-spell">
                         <table class="dyn-table dyn-table-scroll">
                             <thead>
                                 <tr>
@@ -604,38 +419,20 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="px-3 py-2">
-                        <button type="button" onclick="addSpellRow()"
-                                class="rounded-md border border-[#8e653f] bg-[#6f4929] px-3 py-1 text-[11px] font-semibold text-[#f3e2c7] hover:bg-[#7e5430] transition">
-                            + Adicionar Spell
-                        </button>
-                    </div>
-                </div><!-- /attacks -->
+                </section><!-- /spellcasting -->
 
                 <!-- ── Equipment ─────────────────────────────────── -->
-                <div class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
-                    <div class="px-3 py-2 border-b border-[#7f5938]/35">
+                <section class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden equipment-section">
+                    <div class="px-3 py-2 border-b border-[#7f5938]/35 flex items-center justify-between gap-2">
                         <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Equipment</p>
+                    <button type="button" data-add-row="equipment"
+                                class="text-base leading-none font-semibold text-[#f3e2c7] hover:text-[#ffffff] transition"
+                                aria-label="Adicionar equipamento">+</button>
                     </div>
 
-                    <div class="flex gap-0">
-                        <!-- Coins -->
-                        <div class="w-12 flex-shrink-0 px-1.5 py-2 flex flex-col gap-1">
-                            <p class="section-title mb-0.5" style="font-size:0.5rem">Coins</p>
-                            <?php
-                            $coins = ['cp', 'sp', 'ep', 'gp', 'pp'];
-                            foreach ($coins as $coin):
-                            ?>
-                            <div class="flex flex-col items-center gap-0">
-                                <input type="number" min="0" placeholder="0"
-                                       class="sm-input w-full" style="font-size:0.65rem;padding:1px 2px"
-                                       aria-label="<?= strtoupper($coin) ?>">
-                                <span class="text-[7px] uppercase tracking-wide text-[#9e7c56] leading-tight"><?= $coin ?></span>
-                            </div>
-                            <?php endforeach; ?>
-                        </div>
+                    <div class="equipment-section-body">
                         <!-- Equipment table -->
-                        <div class="flex-1 overflow-x-auto border-r border-[#7f5938]/30">
+                        <div class="dyn-table-frame dyn-table-frame-equip equipment-table-frame">
                             <table class="dyn-table dyn-table-scroll">
                                 <thead>
                                     <tr>
@@ -648,238 +445,86 @@
                                     <!-- dynamic rows -->
                                 </tbody>
                             </table>
-                            <div class="px-3 py-2">
-                                <button type="button" onclick="addEquipRow()"
-                                        class="rounded-md border border-[#8e653f] bg-[#6f4929] px-3 py-1 text-[11px] font-semibold text-[#f3e2c7] hover:bg-[#7e5430] transition">
-                                    + Adicionar Equipamento
-                                </button>
+                        </div>
+
+                        <!-- Coins -->
+                        <div class="equipment-coins-bar">
+                            <p class="section-title section-title-xs mb-0.5">Coins</p>
+                            <div class="flex items-end justify-center gap-1.5">
+                            <?php
+                            $coins = ['cp', 'sp', 'ep', 'gp', 'pp'];
+                            foreach ($coins as $coin):
+                            ?>
+                            <div class="w-8 flex flex-col items-center gap-0">
+                                <input type="number" min="0" placeholder="0"
+                                       class="sm-input coin-input"
+                                       aria-label="<?= strtoupper($coin) ?>">
+                                <span class="text-[6px] uppercase tracking-wide text-[#9e7c56] leading-tight"><?= $coin ?></span>
+                            </div>
+                            <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
-                </div><!-- /equipment -->
+                </section><!-- /equipment -->
+
+                <!-- ── Features & Traits ─────────────────────────── -->
+                <section class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
+                    <div class="px-3 py-2 border-b border-[#7f5938]/35 flex items-center justify-between gap-2">
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Features &amp; Traits</p>
+                    <button type="button" data-add-row="feature-trait"
+                                class="text-base leading-none font-semibold text-[#f3e2c7] hover:text-[#ffffff] transition"
+                                aria-label="Adicionar feature ou trait">+</button>
+                    </div>
+                    <div class="dyn-table-frame dyn-table-frame-lg">
+                        <table class="dyn-table dyn-table-scroll">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th class="w-6"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="featuresTraitsBody">
+                                <!-- dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section><!-- /features & traits -->
+
+                <!-- ── Other Proficiencies & Languages ───────────── -->
+                <section class="rounded-2xl border border-[#8d643d]/35 bg-[#4a2f1d]/80 overflow-hidden">
+
+                    <div class="px-3 py-2 border-b border-[#7f5938]/35 flex items-center justify-between gap-2">
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c4a060]">Other Proficiencies &amp; Languages</p>
+                        <button type="button" data-add-row="other-proficiency"
+                                class="text-base leading-none font-semibold text-[#f3e2c7] hover:text-[#ffffff] transition"
+                                aria-label="Adicionar proficiência ou idioma">+</button>
+                    </div>
+                    <div class="dyn-table-frame dyn-table-frame-xl">
+                        <table class="dyn-table dyn-table-scroll">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th class="w-6"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="otherProficienciesBody">
+                                <!-- dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section><!-- /other proficiencies & languages -->
 
                 <!-- bottom spacer -->
                 <div class="h-4"></div>
 
-            </div><!-- /main content scroll -->
+            </section><!-- /main content scroll -->
 
         </div><!-- /content wrapper -->
 
-    </div><!-- /sheet-wrapper -->
-
-    <!-- ══════════════════════════════════════════════════════════════════
-         SCRIPTS
-    ══════════════════════════════════════════════════════════════════════ -->
-    <script>
-    (() => {
-        'use strict';
-
-        // ── Navbar mobile offcanvas ──────────────────────────────────────
-        const openBtn      = document.getElementById('mobileMenuButton');
-        const closeBtn     = document.getElementById('mobileMenuClose');
-        const offcanvas    = document.getElementById('mobileOffcanvas');
-        const backdrop     = document.getElementById('mobileBackdrop');
-
-        if (openBtn && closeBtn && offcanvas && backdrop) {
-            const openNav = () => {
-                offcanvas.classList.remove('translate-x-full', 'pointer-events-none');
-                backdrop.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            };
-            const closeNav = () => {
-                offcanvas.classList.add('translate-x-full', 'pointer-events-none');
-                backdrop.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            };
-            openBtn.addEventListener('click', openNav);
-            closeBtn.addEventListener('click', closeNav);
-            backdrop.addEventListener('click', closeNav);
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
-        }
-
-        // ── Avatar dropdown ──────────────────────────────────────────────
-        const avatarBtn  = document.getElementById('avatarMenuButton');
-        const avatarMenu = document.getElementById('avatarDropdown');
-        if (avatarBtn && avatarMenu) {
-            avatarBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const hidden = avatarMenu.classList.contains('hidden');
-                avatarMenu.classList.toggle('hidden', !hidden);
-                avatarBtn.setAttribute('aria-expanded', String(hidden));
-            });
-            document.addEventListener('click', (e) => {
-                if (!avatarMenu.contains(e.target) && !avatarBtn.contains(e.target)) {
-                    avatarMenu.classList.add('hidden');
-                    avatarBtn.setAttribute('aria-expanded', 'false');
-                }
-            });
-        }
-
-        // ── Toggle circles ───────────────────────────────────────────────
-        function initToggles(context) {
-            (context || document).querySelectorAll('.toggle-circ').forEach((btn) => {
-                if (btn.dataset.initDone) return;
-                btn.dataset.initDone = '1';
-                btn.addEventListener('click', () => btn.classList.toggle('is-active'));
-            });
-        }
-        initToggles();
-
-        // ── Slider ───────────────────────────────────────────────────────
-        const profSlider    = document.getElementById('profSlider');
-        const sliderHandle  = document.getElementById('sliderHandle');
-        const sliderBackdrop = document.getElementById('sliderBackdrop');
-        let sliderOpen = false;
-
-        window.toggleSlider = function () {
-            sliderOpen = !sliderOpen;
-            profSlider.classList.toggle('slider-open', sliderOpen);
-            sliderHandle.classList.toggle('slider-open', sliderOpen);
-            sliderBackdrop.classList.toggle('active', sliderOpen);
-        };
-
-        // Touch swipe on main content – swipe right to open, left to close
-        let touchStartX = 0;
-        const contentWrapper = profSlider.parentElement;
-        contentWrapper.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].clientX;
-        }, { passive: true });
-        contentWrapper.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (!sliderOpen && dx > 50) toggleSlider();
-            if (sliderOpen && dx < -50) toggleSlider();
-        }, { passive: true });
-
-        // ── Dynamic table helpers ────────────────────────────────────────
-        function makeDeleteBtn(row, onDelete) {
-            const td = document.createElement('td');
-            td.className = 'text-center';
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.title = 'Remover linha';
-            btn.className = 'inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#b66b5a] bg-[#51241d] text-[#f6ccc3] text-[10px] hover:bg-[#6b2e26] transition';
-            btn.innerHTML = '<i class="ri-close-line" aria-hidden="true"></i>';
-            btn.addEventListener('click', () => {
-                if (typeof onDelete === 'function') {
-                    onDelete();
-                    return;
-                }
-                row.remove();
-            });
-            td.appendChild(btn);
-            return td;
-        }
-
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-        }
-
-        // ── Attacks table ────────────────────────────────────────────────
-        window.addAttackRow = function () {
-            const tbody = document.getElementById('attacksBody');
-            const tr = document.createElement('tr');
-
-            const fields = [
-                { ph: 'Sword', label: 'Nome do ataque' },
-                { ph: '+5', label: 'Attack bonus' },
-                { ph: '1d8+3 slash.', label: 'Damage and type' },
-            ];
-
-            fields.forEach(({ ph, label }) => {
-                const td = document.createElement('td');
-                const inp = document.createElement('input');
-                inp.type = 'text';
-                inp.placeholder = ph;
-                inp.className = 'sheet-input';
-                inp.setAttribute('aria-label', label);
-                td.appendChild(inp);
-                tr.appendChild(td);
-            });
-
-            tr.appendChild(makeDeleteBtn(tr));
-            tbody.appendChild(tr);
-        };
-
-        // ── Spells table ─────────────────────────────────────────────────
-        window.addSpellRow = function () {
-            const tbody = document.getElementById('spellsBody');
-            const tr = document.createElement('tr');
-            tr.style.display = 'table-row';
-
-            const descTr = document.createElement('tr');
-            const descTd = document.createElement('td');
-            descTd.colSpan = 3;
-            const ta = document.createElement('textarea');
-            ta.placeholder = 'Descrição…';
-            ta.rows = 1;
-            ta.className = 'sheet-input auto-textarea';
-            ta.setAttribute('aria-label', 'Spell description');
-            ta.addEventListener('input', () => autoResize(ta));
-            descTd.appendChild(ta);
-            descTr.appendChild(descTd);
-
-            // Name cell
-            const tdName = document.createElement('td');
-            const nameInp = document.createElement('input');
-            nameInp.type = 'text';
-            nameInp.placeholder = 'Fireball';
-            nameInp.className = 'sheet-input';
-            nameInp.setAttribute('aria-label', 'Spell name');
-            tdName.appendChild(nameInp);
-            tr.appendChild(tdName);
-
-            // Level cell
-            const tdLvl = document.createElement('td');
-            const lvlInp = document.createElement('input');
-            lvlInp.type = 'number';
-            lvlInp.min = '0';
-            lvlInp.max = '9';
-            lvlInp.placeholder = '3';
-            lvlInp.className = 'sm-input';
-            lvlInp.setAttribute('aria-label', 'Spell level');
-            tdLvl.appendChild(lvlInp);
-            tr.appendChild(tdLvl);
-
-            tr.appendChild(makeDeleteBtn(tr, () => {
-                descTr.remove();
-                tr.remove();
-            }));
-            tbody.appendChild(tr);
-            tbody.appendChild(descTr);
-        };
-
-        // ── Equipment table ──────────────────────────────────────────────
-        window.addEquipRow = function () {
-            const tbody = document.getElementById('equipBody');
-            const tr = document.createElement('tr');
-
-            // Name cell
-            const tdName = document.createElement('td');
-            const nameInp = document.createElement('input');
-            nameInp.type = 'text';
-            nameInp.placeholder = 'Longsword';
-            nameInp.className = 'sheet-input';
-            nameInp.setAttribute('aria-label', 'Item name');
-            tdName.appendChild(nameInp);
-            tr.appendChild(tdName);
-
-            // Description cell
-            const tdDesc = document.createElement('td');
-            const ta = document.createElement('textarea');
-            ta.placeholder = 'Descrição ou notas…';
-            ta.rows = 1;
-            ta.className = 'sheet-input auto-textarea';
-            ta.setAttribute('aria-label', 'Item description');
-            ta.addEventListener('input', () => autoResize(ta));
-            tdDesc.appendChild(ta);
-            tr.appendChild(tdDesc);
-
-            tr.appendChild(makeDeleteBtn(tr));
-            tbody.appendChild(tr);
-        };
-
-    })();
-    </script>
+    </section><!-- /sheet-wrapper -->
+</main>
+    <script src="<?= base_url('js/character-sheet.js') ?>"></script>
 </body>
 </html>
