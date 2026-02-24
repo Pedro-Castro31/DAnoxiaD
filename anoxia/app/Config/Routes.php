@@ -12,6 +12,7 @@ $routes->get('auth/reset-password', 'Auth::resetPassword');
 $routes->post('auth/reset-password', 'Auth::resetPassword');
 $routes->get('dashboardtest', 'UserManager::index');
 $routes->get('campaigntest', 'CampaignManager::index');
+$routes->get('sheettest', 'CharacterSheetController::index');
 $routes->post('admin/users/create', 'UserManager::create');
 $routes->post('campaigns/create', 'CampaignManager::create');
 $routes->get('uploads/(:any)', 'Uploads::show/$1');
