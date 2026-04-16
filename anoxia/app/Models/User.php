@@ -13,7 +13,8 @@ class User extends Model
         'email',
         'password_hash',
         'is_admin',
-        'is_active'
+        'is_active',
+        'theme',
     ];
     protected $useTimestamps = false;
 
@@ -33,11 +34,18 @@ class User extends Model
     public function getByEmail(string $p_email): ?object
     {
         return $this->db->table($this->getUserTable())
-            ->select('id, name, email, password_hash, is_admin')
+            ->select('id, name, email, password_hash, is_admin, theme')
             ->where('email', $p_email)
             ->limit(1)
             ->get()
             ->getRow();
+    }
+
+    public function updateTheme(int $userId, string $theme): void
+    {
+        $this->db->table($this->getUserTable())
+            ->where('id', $userId)
+            ->update(['theme' => $theme]);
     }
 
     public function createPendingUser(string $name, string $email): array

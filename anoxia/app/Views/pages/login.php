@@ -3,7 +3,7 @@ $authError = session()->getFlashdata('auth_error');
 $authInfo = session()->getFlashdata('auth_info');
 ?>
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" data-theme="medieval">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,12 +14,12 @@ $authInfo = session()->getFlashdata('auth_info');
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
 </head>
-<body class="min-h-screen bg-[#2f1e14] text-[#f4e3c8] font-tavern">
-    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,#70472a_0%,#4b301f_42%,#2a1a12_100%)]"></div>
+<body class="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] font-tavern">
+    <div class="app-body-gradient absolute inset-0 -z-10"></div>
 
     <main class="mx-auto grid min-h-screen w-full max-w-7xl place-items-center px-6 py-8">
-        <section class="w-full overflow-hidden rounded-3xl border border-[#8d643d]/35 bg-[#5a3923]/65 shadow-[0_14px_34px_rgba(10,6,4,0.35)] md:grid md:grid-cols-2">
-            <div class="relative hidden min-h-[560px] border-r border-[#8d643d]/35 md:block">
+        <section class="w-full overflow-hidden rounded-3xl border border-[var(--border-base)]/35 bg-[var(--bg-card)]/65 shadow-[0_14px_34px_rgba(10,6,4,0.35)] md:grid md:grid-cols-2">
+            <div class="relative hidden min-h-[560px] border-r border-[var(--border-base)]/35 md:block">
                 <div class="absolute inset-0">
                     <img src="<?= base_url('assets/images/login/tavern.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
                     <img src="<?= base_url('assets/images/login/laboratorio.png') ?>" alt="Pre-visualizacao do painel 5" class="slide-item absolute inset-0 h-full w-full object-cover opacity-0 transition duration-700" data-slide>
@@ -28,29 +28,25 @@ $authInfo = session()->getFlashdata('auth_info');
                 </div>
                 <div class="absolute inset-0 bg-black/30"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-6">
-                    <p class="font-royal text-2xl text-[#f6e8cd]">Acesso Seguro</p>
-                    <p class="mt-2 text-sm text-[#efddbf]">Use as suas credenciais para aceder a plataforma.</p>
+                    <p class="font-royal text-2xl text-[var(--text-primary)]">Acesso Seguro</p>
+                    <p class="mt-2 text-sm text-[var(--text-secondary)]">Use as suas credenciais para aceder a plataforma.</p>
                 </div>
             </div>
 
             <div class="flex min-h-[560px] items-center justify-center p-6 sm:p-10">
                 <div class="w-full max-w-md">
                     <a href="<?= base_url('/') ?>" class="mx-auto mb-8 flex w-fit items-center gap-3">
-                        <img
-                            src="<?= base_url('assets/images/logo.png') ?>"
-                            alt="Anoxia"
-                            class="w-auto"
-                        >
+                        <img src="<?= base_url('assets/images/logo.png') ?>" alt="Anoxia" class="w-auto">
                     </a>
 
-                    <h1 class="text-center font-royal text-4xl text-[#f6e8cd]">Iniciar Sessão</h1>
-                    <p class="mt-2 text-center text-[#dfc49d]">Autentique-se para aceder a sua conta.</p>
+                    <h1 class="text-center font-royal text-4xl text-[var(--text-primary)]">Iniciar Sessão</h1>
+                    <p class="mt-2 text-center text-[var(--text-secondary)]">Autentique-se para aceder a sua conta.</p>
 
                     <form method="post" action="<?= base_url('auth/login') ?>" class="mt-8 space-y-4 text-sm" novalidate id="loginForm">
                         <?= csrf_field() ?>
 
                         <div>
-                            <label class="mb-1 block text-[#dfc49d]">E-mail</label>
+                            <label class="mb-1 block text-[var(--text-secondary)]">E-mail</label>
                             <input
                                 type="email"
                                 id="email"
@@ -58,13 +54,13 @@ $authInfo = session()->getFlashdata('auth_info');
                                 placeholder="seu@email.com"
                                 value="<?= esc(old('email')) ?>"
                                 required
-                                class="w-full rounded-lg border border-[#a87b4f]/35 bg-[#3e2718] px-3 py-2 text-[#f5e5ca] placeholder:text-[#d0ae80] outline-none focus:ring-2 focus:ring-[#d5b078] transition"
+                                class="w-full rounded-lg border border-[var(--border-input)]/35 bg-[var(--bg-input)] px-3 py-2 text-[var(--text-primary)] placeholder:text-[var(--text-placeholder)] outline-none focus:ring-2 focus:ring-[var(--ring-focus)] transition"
                             >
-                            <p id="emailError" class="mt-1 hidden text-xs text-[#f6ccc3]"></p>
+                            <p id="emailError" class="mt-1 hidden text-xs text-[var(--text-error)]"></p>
                         </div>
 
                         <div>
-                            <label class="mb-1 block text-[#dfc49d]">Palavra-passe</label>
+                            <label class="mb-1 block text-[var(--text-secondary)]">Palavra-passe</label>
                             <div class="relative">
                                 <input
                                     type="password"
@@ -73,12 +69,12 @@ $authInfo = session()->getFlashdata('auth_info');
                                     placeholder="Introduza a sua palavra-passe"
                                     required
                                     autocomplete="off"
-                                    class="w-full rounded-lg border border-[#a87b4f]/35 bg-[#3e2718] px-3 py-2 pr-24 text-[#f5e5ca] placeholder:text-[#d0ae80] outline-none focus:ring-2 focus:ring-[#d5b078] transition"
+                                    class="w-full rounded-lg border border-[var(--border-input)]/35 bg-[var(--bg-input)] px-3 py-2 pr-24 text-[var(--text-primary)] placeholder:text-[var(--text-placeholder)] outline-none focus:ring-2 focus:ring-[var(--ring-focus)] transition"
                                 >
                                 <button
                                     type="button"
                                     id="togglePassword"
-                                    class="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center p-1 justify-center rounded-md border border-[#8e653f] bg-[#6f4929] text-[#f3e2c7] hover:bg-[#7e5430] transition"
+                                    class="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center p-1 justify-center rounded-md border border-[var(--border-base)] bg-[var(--bg-btn)] text-[var(--text-on-btn)] hover:bg-[var(--bg-btn-hover)] transition"
                                     aria-label="Mostrar palavra-passe"
                                     title="Mostrar palavra-passe"
                                 >
@@ -86,24 +82,20 @@ $authInfo = session()->getFlashdata('auth_info');
                                     <i id="eyeClosedIcon" class="ri-eye-off-line hidden text-[18px]" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <p id="passwordError" class="mt-1 hidden text-xs text-[#f6ccc3]"></p>
+                            <p id="passwordError" class="mt-1 hidden text-xs text-[var(--text-error)]"></p>
                         </div>
 
                         <div class="flex items-center justify-between gap-3">
-                            <label class="inline-flex items-center gap-2 text-[#dfc49d]">
-                                <input
-                                    type="checkbox"
-                                    name="remember_me"
-                                    value="1"
-                                >
+                            <label class="inline-flex items-center gap-2 text-[var(--text-secondary)]">
+                                <input type="checkbox" name="remember_me" value="1">
                                 <span>Lembrar-me</span>
                             </label>
-                            <a href="#" id="openRecoverPasswordLink" class="text-[#d4b07a] hover:text-[#f6e8cd] transition">Recuperar acesso</a>
+                            <a href="#" id="openRecoverPasswordLink" class="text-[var(--border-accent)] hover:text-[var(--text-primary)] transition">Recuperar acesso</a>
                         </div>
 
                         <button
                             type="submit"
-                            class="w-full rounded-lg border border-[#d4b07a] bg-[#c89b60] px-4 py-2 font-semibold text-[#2d1c12] hover:bg-[#dbb780] transition"
+                            class="w-full rounded-lg border border-[var(--border-accent)] bg-[var(--bg-accent)] px-4 py-2 font-semibold text-[var(--text-on-accent)] hover:bg-[var(--bg-accent-hover)] transition"
                         >
                             Iniciar sessão
                         </button>
@@ -123,15 +115,15 @@ $authInfo = session()->getFlashdata('auth_info');
             const authError = <?= json_encode($authError) ?>;
             const authInfo = <?= json_encode($authInfo) ?>;
 
+            const toastStyles = {
+                success: 'toast-success',
+                warning: 'toast-warning',
+                danger: 'toast-danger',
+                info: 'toast-info',
+            };
+
             const showToast = (message, type = 'danger') => {
                 if (!toastContainer || !message) return;
-
-                const toastStyles = {
-                    success: 'border-[#6f9b5a] bg-[#d8edce] text-[#264a1e]',
-                    warning: 'border-[#b4895f] bg-[#f3e0b6] text-[#5c3a1a]',
-                    danger: 'border-[#b66b5a] bg-[#f3cbc2] text-[#5f1f19]',
-                    info: 'border-[#8d643d] bg-[#4b301d] text-[#f0ddbf]',
-                };
 
                 const toast = document.createElement('div');
                 toast.className = `rounded-lg border px-4 py-3 text-sm shadow-lg transition ${toastStyles[type] || toastStyles.danger}`;
@@ -155,7 +147,6 @@ $authInfo = session()->getFlashdata('auth_info');
             if (authError) showToast(authError, 'danger');
             if (authInfo) showToast(authInfo, 'success');
 
-            // Open password recovery modal
             const openRecoverPasswordLink = document.getElementById('openRecoverPasswordLink');
             openRecoverPasswordLink?.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -199,18 +190,16 @@ $authInfo = session()->getFlashdata('auth_info');
                 });
             }
 
-            const errorBorder = 'border-[#b66b5a]';
-            const errorRing = 'focus:ring-[#b66b5a]';
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             const clearField = (field, errorEl) => {
-                field.classList.remove(errorBorder, errorRing);
+                field.classList.remove('input-error');
                 errorEl.textContent = '';
                 errorEl.classList.add('hidden');
             };
 
             const setFieldError = (field, errorEl, message) => {
-                field.classList.add(errorBorder, errorRing);
+                field.classList.add('input-error');
                 errorEl.textContent = message;
                 errorEl.classList.remove('hidden');
             };

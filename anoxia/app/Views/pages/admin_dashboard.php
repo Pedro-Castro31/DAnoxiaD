@@ -12,51 +12,51 @@ $inactiveUsers = $inactiveUsers ?? 0;
 ?>
 
 <div class="flex flex-col gap-6">
-	<section class="rounded-3xl border border-[#8d643d]/35 bg-[#5a3923]/70 p-6 shadow-[0_14px_34px_rgba(10,6,4,0.35)]">
+	<section class="rounded-3xl border border-[var(--border-base)]/35 bg-[var(--bg-card)]/70 p-6 shadow-[0_14px_34px_rgba(10,6,4,0.35)]">
 		<div class="flex flex-wrap items-start justify-between gap-4">
 			<div>
-				<p class="text-xs uppercase tracking-[0.3em] text-[#caa679]">Admin</p>
-				<h1 class="mt-2 font-royal text-4xl text-[#f6e8cd]">User Management</h1>
-				<p class="mt-2 max-w-2xl text-[#dfc49d]">Create, review, edit, and deactivate user accounts from a single command center.</p>
+				<p class="text-xs uppercase tracking-[0.3em] text-[var(--text-muted)]">Admin</p>
+				<h1 class="mt-2 font-royal text-4xl text-[var(--text-primary)]">User Management</h1>
+				<p class="mt-2 max-w-2xl text-[var(--text-secondary)]">Create, review, edit, and deactivate user accounts from a single command center.</p>
 			</div>
 			<div class="flex flex-wrap gap-2 text-sm">
-				<a href="<?= base_url('admin/users/export') ?>" class="rounded-lg border border-[#8f6640] bg-[#6f4929] px-4 py-2 font-semibold text-[#f3e2c7] transition hover:bg-[#7e5430]">Export CSV</a>
-				<button id="openListUsersBtn" type="button" class="rounded-lg border border-[#8f6640] bg-[#4a2f1d] px-4 py-2 font-semibold text-[#f3e2c7] transition hover:bg-[#6f4929]">List Users</button>
-				<button id="openCreateUserBtn" type="button" class="rounded-lg border border-[#d4b07a] bg-[#c89b60] px-4 py-2 font-semibold text-[#2d1c12] transition hover:bg-[#dbb780]">Create User</button>
+				<a href="<?= base_url('admin/users/export') ?>" class="rounded-lg border border-[var(--border-base)] bg-[var(--bg-btn)] px-4 py-2 font-semibold text-[var(--text-on-btn)] transition hover:bg-[var(--bg-btn-hover)]">Export CSV</a>
+				<button id="openListUsersBtn" type="button" class="rounded-lg border border-[var(--border-base)] bg-[var(--bg-card-alt)] px-4 py-2 font-semibold text-[var(--text-primary)] transition hover:bg-[var(--bg-btn)] hover:text-[var(--text-on-btn)]">List Users</button>
+				<button id="openCreateUserBtn" type="button" class="rounded-lg border border-[var(--border-accent)] bg-[var(--bg-accent)] px-4 py-2 font-semibold text-[var(--text-on-accent)] transition hover:bg-[var(--bg-accent-hover)]">Create User</button>
 			</div>
 		</div>
 	</section>
 
 	<section class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Total Users</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $totalUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">All registered accounts.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Total Users</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $totalUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">All registered accounts.</p>
 		</article>
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Admins</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $adminUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">Users with elevated access.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Admins</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $adminUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">Users with elevated access.</p>
 		</article>
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Dungeon Masters</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $dmUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">Assigned to campaigns.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Dungeon Masters</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $dmUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">Assigned to campaigns.</p>
 		</article>
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Pending</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $pendingUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">Awaiting activation.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Pending</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $pendingUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">Awaiting activation.</p>
 		</article>
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Active</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $activeUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">Can access the platform.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Active</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $activeUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">Can access the platform.</p>
 		</article>
-		<article class="rounded-2xl border border-[#8f6640]/35 bg-[#4a2f1d]/75 p-4">
-			<p class="text-xs uppercase tracking-wide text-[#cfae84]">Inactive</p>
-			<p class="mt-2 font-royal text-3xl text-[#f6e8cd]"><?= esc((string) $inactiveUsers) ?></p>
-			<p class="mt-1 text-sm text-[#e2c8a3]">Disabled accounts.</p>
+		<article class="rounded-2xl border border-[var(--border-base)]/35 bg-[var(--bg-card-alt)]/75 p-4">
+			<p class="text-xs uppercase tracking-wide text-[var(--text-muted)]">Inactive</p>
+			<p class="mt-2 font-royal text-3xl text-[var(--text-primary)]"><?= esc((string) $inactiveUsers) ?></p>
+			<p class="mt-1 text-sm text-[var(--text-secondary)]">Disabled accounts.</p>
 		</article>
 	</section>
 

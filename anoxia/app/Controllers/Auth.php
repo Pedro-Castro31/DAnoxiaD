@@ -81,11 +81,12 @@ class Auth extends BaseController
         $session = session();
         $session->regenerate();
         $session->set([
-            'user_id' => $result->id,
-            'user_name' => $result->name,
+            'user_id'    => $result->id,
+            'user_name'  => $result->name,
             'user_email' => $result->email,
-            'is_admin' => (int) $result->is_admin,
-            'logged_in' => true,
+            'is_admin'   => (int) $result->is_admin,
+            'user_theme' => $result->theme ?? 'medieval',
+            'logged_in'  => true,
         ]);
         log_message('debug', '[AUTH] login success user_id={id} email={email}', [
             'id'    => (string) $result->id,
@@ -156,6 +157,72 @@ class Auth extends BaseController
         return redirect()->to(base_url('login'))->with('auth_info', 'Sessao terminada com sucesso.');
     }
 
+    private function emailPalette(string $theme): array
+    {
+        return match ($theme) {
+            'white' => [
+                'header_bg'   => 'linear-gradient(135deg, #4f46e5 0%, #3730a3 42%, #1e1b72 100%)',
+                'header_text' => '#ffffff',
+                'btn_bg'      => '#4f46e5',
+                'btn_text'    => '#ffffff',
+                'body_bg'     => '#f8fafc',
+                'body_text'   => '#0f172a',
+                'footer_bg'   => '#e2e8f0',
+                'footer_text' => '#64748b',
+                'border'      => '#cbd5e1',
+                'link_bg'     => '#e8eef5',
+            ],
+            'dark' => [
+                'header_bg'   => 'linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 42%, #111111 100%)',
+                'header_text' => '#e4e4e4',
+                'btn_bg'      => '#666666',
+                'btn_text'    => '#e4e4e4',
+                'body_bg'     => '#1a1a1a',
+                'body_text'   => '#e4e4e4',
+                'footer_bg'   => '#111111',
+                'footer_text' => '#888888',
+                'border'      => '#3a3a3a',
+                'link_bg'     => '#242424',
+            ],
+            'carbonfox' => [
+                'header_bg'   => 'linear-gradient(135deg, #282828 0%, #1c1c1c 42%, #0f0f0f 100%)',
+                'header_text' => '#f2f4f8',
+                'btn_bg'      => '#33b1ff',
+                'btn_text'    => '#161616',
+                'body_bg'     => '#161616',
+                'body_text'   => '#f2f4f8',
+                'footer_bg'   => '#0f0f0f',
+                'footer_text' => '#b6b8bb',
+                'border'      => '#3c3c3c',
+                'link_bg'     => '#1c1c1c',
+            ],
+            'ember' => [
+                'header_bg'   => 'linear-gradient(135deg, #241a10 0%, #181210 42%, #0f0f0f 100%)',
+                'header_text' => '#f2f4f8',
+                'btn_bg'      => '#bf7c40',
+                'btn_text'    => '#fdf0e0',
+                'body_bg'     => '#161616',
+                'body_text'   => '#f2f4f8',
+                'footer_bg'   => '#0f0f0f',
+                'footer_text' => '#a08060',
+                'border'      => '#3c3c3c',
+                'link_bg'     => '#1c1c1c',
+            ],
+            default => [
+                'header_bg'   => 'linear-gradient(135deg, #70472a 0%, #4b301f 42%, #2a1a12 100%)',
+                'header_text' => '#f6e8cd',
+                'btn_bg'      => '#c89b60',
+                'btn_text'    => '#2d1c12',
+                'body_bg'     => '#ffffff',
+                'body_text'   => '#333333',
+                'footer_bg'   => '#f5f5f5',
+                'footer_text' => '#666666',
+                'border'      => '#ddd',
+                'link_bg'     => '#f5f5f5',
+            ],
+        };
+    }
+
     public function recoverPassword()
     {
         log_message('debug', '[AUTH] recover called. method={method}', [
@@ -222,8 +289,10 @@ class Auth extends BaseController
             // Send email
             $resetLink = base_url('auth/reset-password?token=' . $token);
 
+            $p = $this->emailPalette($user->theme ?? 'medieval');
+
             $emailService = \Config\Services::email();
-            
+
             $emailService->setFrom(
                 getenv('email.fromEmail') ?: 'anoxiadnd@gmail.com',
                 getenv('email.fromName') ?: 'Anoxia DnD'
@@ -237,12 +306,12 @@ class Auth extends BaseController
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: ' . $p['body_text'] . '; background: ' . $p['body_bg'] . '; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #70472a 0%, #4b301f 42%, #2a1a12 100%); color: #f6e8cd; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
-        .content { background: #fff; padding: 30px; border: 1px solid #ddd; }
-        .button { display: inline-block; background: #c89b60; color: #2d1c12; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
-        .footer { background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666; border-radius: 0 0 8px 8px; }
+        .header { background: ' . $p['header_bg'] . '; color: ' . $p['header_text'] . '; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+        .content { background: ' . $p['body_bg'] . '; padding: 30px; border: 1px solid ' . $p['border'] . '; }
+        .button { display: inline-block; background: ' . $p['btn_bg'] . '; color: ' . $p['btn_text'] . '; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+        .footer { background: ' . $p['footer_bg'] . '; padding: 20px; text-align: center; font-size: 12px; color: ' . $p['footer_text'] . '; border-radius: 0 0 8px 8px; }
     </style>
 </head>
 <body>
@@ -258,7 +327,7 @@ class Auth extends BaseController
                 <a href="' . $resetLink . '" class="button">Redefinir Palavra-passe</a>
             </div>
             <p>Ou copie e cole este link no seu navegador:</p>
-            <p style="word-break: break-all; background: #f5f5f5; padding: 10px; border-radius: 4px; font-size: 12px;">' . $resetLink . '</p>
+            <p style="word-break: break-all; background: ' . $p['link_bg'] . '; padding: 10px; border-radius: 4px; font-size: 12px;">' . $resetLink . '</p>
             <p><strong>Este link expira em 1 hora.</strong></p>
             <p>Se nao solicitou esta alteracao, ignore este e-mail. A sua palavra-passe permanecera inalterada.</p>
         </div>

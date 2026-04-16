@@ -147,3 +147,13 @@ node_modules/
 #-------------------------
 app/Database/Migrations/*.php
 !app/Database/Migrations/.gitkeep
+
+#-------------------------
+# Graphify
+#-------------------------
+# Cache dir — large, rebuilt automatically
+graphify-out/cache/
+app/graphify-out/cache/
+# Commit the report and json, skip HTML (large binary-ish)
+graphify-out/graph.html
+app/graphify-out/graph.html

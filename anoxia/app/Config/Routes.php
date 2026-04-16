@@ -19,4 +19,7 @@ $routes->get('uploads/(:any)', 'Uploads::show/$1');
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/', 'Home::index');
     $routes->get('auth/logout', 'Auth::logout');
+    $routes->post('settings/theme', 'Settings::updateTheme');
+    $routes->get('personagens', 'PersonagemManager::index');
+    $routes->post('personagens/create', 'PersonagemManager::create');
 });

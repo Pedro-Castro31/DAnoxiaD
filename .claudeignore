@@ -1,0 +1,25 @@
+# CI4 vendor code (2800+ files, never needs reading)
+anoxia/vendor/
+
+# Node modules
+anoxia/node_modules/
+
+# CI4 boilerplate config files (large, no custom content)
+anoxia/app/Config/Mimes.php
+anoxia/app/Config/UserAgents.php
+anoxia/app/Config/ForeignCharacters.php
+anoxia/app/Config/DocTypes.php
+
+# CI4 default error templates
+anoxia/app/Views/errors/
+
+# Runtime data
+anoxia/writable/
+
+# DDEV internals
+.ddev/.gitignore
+.ddev/traefik/
+.ddev/.ddev-docker-*
+
+# Test coverage output
+anoxia/tests/coverage/

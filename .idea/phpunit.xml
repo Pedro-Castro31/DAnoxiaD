@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/DAnoxiaD/.claude/worktrees/confident-poitras/anoxia/tests" />
+        <option value="$PROJECT_DIR$/DAnoxiaD/anoxia/tests" />
+        <option value="$PROJECT_DIR$/anoxia/tests" />
+        <option value="$PROJECT_DIR$/.claude/worktrees/blissful-dijkstra/anoxia/tests" />
+      </list>
+    </option>
+  </component>
+</project>

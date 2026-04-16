@@ -4,18 +4,323 @@
 @source "../../app/Controllers/**/*.php";
 
 @theme {
-  --color-parchment: #efe2c6;
-  --color-parchment-dark: #e3d0aa;
-  --color-oak: #8b5e34;
-  --color-walnut: #5a3b22;
-  --color-umber: #3b2618;
-  --color-goldleaf: #c59a4a;
-
   --font-royal: "Cinzel", "Times New Roman", serif;
   --font-scribe: "Cormorant Garamond", "Garamond", serif;
   --font-tavern: "Alegreya", "Georgia", serif;
 }
 
+/* ─── Medieval (default) ─────────────────────────────────── */
+:root,
+[data-theme="medieval"] {
+  --bg-base: #2f1e14;
+  --bg-surface: #2b1c13;
+  --bg-card: #5a3923;
+  --bg-card-alt: #4a2f1d;
+  --bg-modal: #3f2819;
+  --bg-input: #3e2718;
+  --bg-btn: #6f4929;
+  --bg-btn-hover: #7e5430;
+  --bg-btn-secondary: #5a3924;
+  --bg-btn-sec-hover: #6a432a;
+  --bg-accent: #c89b60;
+  --bg-accent-hover: #dbb780;
+  --bg-overlay: #1f120b;
+  --bg-table-header: #6f4928;
+  --bg-table-body: #3c2618;
+  --body-gradient: radial-gradient(circle at 20% 10%, #70472a 0%, #4b301f 42%, #2a1a12 100%);
+
+  --text-primary: #f3e2c7;
+  --text-secondary: #dfc49d;
+  --text-muted: #caa679;
+  --text-placeholder: #d0ae80;
+  --text-on-accent: #2d1c12;
+  --text-error: #f6ccc3;
+
+  --border-base: #8f6640;
+  --border-accent: #d4b07a;
+  --border-input: #a87b4f;
+  --border-subtle: #7f5938;
+  --border-error: #b66b5a;
+  --ring-focus: #d5b078;
+
+  --text-on-btn: #f3e2c7;
+
+  --badge-active-bg: #2d3d24;
+  --badge-active-border: #6f9b5a;
+  --badge-active-text: #cfe3b0;
+  --badge-inactive-bg: #442b1d;
+  --badge-inactive-border: #a36b4f;
+  --badge-inactive-text: #e1bca8;
+
+  --toast-danger-bg: #f3cbc2;
+  --toast-danger-border: #b66b5a;
+  --toast-danger-text: #5f1f19;
+  --toast-success-bg: #d8edce;
+  --toast-success-border: #6f9b5a;
+  --toast-success-text: #264a1e;
+  --toast-warning-bg: #f3e0b6;
+  --toast-warning-border: #b4895f;
+  --toast-warning-text: #5c3a1a;
+  --toast-info-bg: #4b301d;
+  --toast-info-border: #8d643d;
+  --toast-info-text: #f0ddbf;
+}
+
+/* ─── White (slate + indigo) ─────────────────────────────── */
+[data-theme="white"] {
+  --bg-base: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-card: #e8eef5;
+  --bg-card-alt: #dde4ef;
+  --bg-modal: #ffffff;
+  --bg-input: #f8fafc;
+  --bg-btn: #334155;
+  --bg-btn-hover: #1e293b;
+  --bg-btn-secondary: #e2e8f0;
+  --bg-btn-sec-hover: #cbd5e1;
+  --bg-accent: #4f46e5;
+  --bg-accent-hover: #3730a3;
+  --bg-overlay: #0f172a;
+  --bg-table-header: #e2e8f0;
+  --bg-table-body: #f8fafc;
+  --body-gradient: none;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-placeholder: #94a3b8;
+  --text-on-accent: #ffffff;
+  --text-error: #dc2626;
+
+  --border-base: #cbd5e1;
+  --border-accent: #4f46e5;
+  --border-input: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --border-error: #dc2626;
+  --ring-focus: #4f46e5;
+
+  --text-on-btn: #ffffff;
+
+  --badge-active-bg: #dcfce7;
+  --badge-active-border: #22c55e;
+  --badge-active-text: #14532d;
+  --badge-inactive-bg: #fee2e2;
+  --badge-inactive-border: #ef4444;
+  --badge-inactive-text: #7f1d1d;
+
+  --toast-danger-bg: #fee2e2;
+  --toast-danger-border: #ef4444;
+  --toast-danger-text: #7f1d1d;
+  --toast-success-bg: #dcfce7;
+  --toast-success-border: #22c55e;
+  --toast-success-text: #14532d;
+  --toast-warning-bg: #fef3c7;
+  --toast-warning-border: #f59e0b;
+  --toast-warning-text: #78350f;
+  --toast-info-bg: #e0f2fe;
+  --toast-info-border: #0ea5e9;
+  --toast-info-text: #0c4a6e;
+}
+
+/* ─── Dark ───────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-base: #1a1a1a;
+  --bg-surface: #111111;
+  --bg-card: #2a2a2a;
+  --bg-card-alt: #242424;
+  --bg-modal: #222222;
+  --bg-input: #1e1e1e;
+  --bg-btn: #3a3a3a;
+  --bg-btn-hover: #484848;
+  --bg-btn-secondary: #2e2e2e;
+  --bg-btn-sec-hover: #3a3a3a;
+  --bg-accent: #666666;
+  --bg-accent-hover: #808080;
+  --bg-overlay: #000000;
+  --bg-table-header: #2e2e2e;
+  --bg-table-body: #222222;
+  --body-gradient: radial-gradient(circle at 20% 10%, #2a2a2a 0%, #1e1e1e 42%, #111111 100%);
+
+  --text-primary: #e4e4e4;
+  --text-secondary: #b0b0b0;
+  --text-muted: #888888;
+  --text-placeholder: #666666;
+  --text-on-accent: #e4e4e4;
+  --text-error: #fca5a5;
+
+  --border-base: #3a3a3a;
+  --border-accent: #666666;
+  --border-input: #444444;
+  --border-subtle: #2e2e2e;
+  --border-error: #ef4444;
+  --ring-focus: #888888;
+
+  --text-on-btn: #e4e4e4;
+
+  --badge-active-bg: #1a2e1a;
+  --badge-active-border: #2d6a2d;
+  --badge-active-text: #86efac;
+  --badge-inactive-bg: #2e1a1a;
+  --badge-inactive-border: #6a2d2d;
+  --badge-inactive-text: #fca5a5;
+
+  --toast-danger-bg: #3f1515;
+  --toast-danger-border: #b91c1c;
+  --toast-danger-text: #fca5a5;
+  --toast-success-bg: #14301a;
+  --toast-success-border: #16a34a;
+  --toast-success-text: #86efac;
+  --toast-warning-bg: #3f2d10;
+  --toast-warning-border: #d97706;
+  --toast-warning-text: #fcd34d;
+  --toast-info-bg: #1e2e3f;
+  --toast-info-border: #2563eb;
+  --toast-info-text: #93c5fd;
+}
+
+/* ─── Carbonfox ──────────────────────────────────────────── */
+[data-theme="carbonfox"] {
+  --bg-base: #161616;
+  --bg-surface: #0f0f0f;
+  --bg-card: #222222;
+  --bg-card-alt: #1c1c1c;
+  --bg-modal: #1c1c1c;
+  --bg-input: #1a1a1a;
+  --bg-btn: #2a2a2a;
+  --bg-btn-hover: #333333;
+  --bg-btn-secondary: #222222;
+  --bg-btn-sec-hover: #2a2a2a;
+  --bg-accent: #33b1ff;
+  --bg-accent-hover: #78a9ff;
+  --bg-overlay: #000000;
+  --bg-table-header: #222222;
+  --bg-table-body: #1a1a1a;
+  --body-gradient: radial-gradient(circle at 20% 10%, #282828 0%, #1c1c1c 42%, #0f0f0f 100%);
+
+  --text-primary: #f2f4f8;
+  --text-secondary: #b6b8bb;
+  --text-muted: #08bdba;
+  --text-placeholder: #525252;
+  --text-on-accent: #161616;
+  --text-error: #ff7eb6;
+
+  --border-base: #3c3c3c;
+  --border-accent: #33b1ff;
+  --border-input: #3c3c3c;
+  --border-subtle: #282828;
+  --border-error: #ee5396;
+  --ring-focus: #33b1ff;
+
+  --text-on-btn: #f2f4f8;
+
+  --badge-active-bg: #0f2218;
+  --badge-active-border: #42be65;
+  --badge-active-text: #42be65;
+  --badge-inactive-bg: #2a1520;
+  --badge-inactive-border: #ee5396;
+  --badge-inactive-text: #ee5396;
+
+  --toast-danger-bg: #1f0d14;
+  --toast-danger-border: #ee5396;
+  --toast-danger-text: #ff7eb6;
+  --toast-success-bg: #0f2218;
+  --toast-success-border: #42be65;
+  --toast-success-text: #42be65;
+  --toast-warning-bg: #1a1505;
+  --toast-warning-border: #b28600;
+  --toast-warning-text: #f1c21b;
+  --toast-info-bg: #0e1f30;
+  --toast-info-border: #33b1ff;
+  --toast-info-text: #78a9ff;
+}
+
+/* ─── Ember (carbon + copper-brown) ─────────────────────── */
+[data-theme="ember"] {
+  --bg-base: #161616;
+  --bg-surface: #0f0f0f;
+  --bg-card: #222222;
+  --bg-card-alt: #1c1c1c;
+  --bg-modal: #1c1c1c;
+  --bg-input: #1a1a1a;
+  --bg-btn: #2a2a2a;
+  --bg-btn-hover: #333333;
+  --bg-btn-secondary: #222222;
+  --bg-btn-sec-hover: #2a2a2a;
+  --bg-accent: #bf7c40;
+  --bg-accent-hover: #d08e52;
+  --bg-overlay: #000000;
+  --bg-table-header: #222222;
+  --bg-table-body: #1a1a1a;
+  --body-gradient: radial-gradient(circle at 20% 10%, #241a10 0%, #181210 42%, #0f0f0f 100%);
+
+  --text-primary: #f2f4f8;
+  --text-secondary: #b6b8bb;
+  --text-muted: #a08060;
+  --text-placeholder: #525252;
+  --text-on-accent: #fdf0e0;
+  --text-error: #ff7eb6;
+  --text-on-btn: #f2f4f8;
+
+  --border-base: #3c3c3c;
+  --border-accent: #bf7c40;
+  --border-input: #3c3c3c;
+  --border-subtle: #282828;
+  --border-error: #ee5396;
+  --ring-focus: #bf7c40;
+
+  --badge-active-bg: #0f2218;
+  --badge-active-border: #42be65;
+  --badge-active-text: #42be65;
+  --badge-inactive-bg: #2a1810;
+  --badge-inactive-border: #bf7c40;
+  --badge-inactive-text: #d4956a;
+
+  --toast-danger-bg: #1f0d14;
+  --toast-danger-border: #ee5396;
+  --toast-danger-text: #ff7eb6;
+  --toast-success-bg: #0f2218;
+  --toast-success-border: #42be65;
+  --toast-success-text: #42be65;
+  --toast-warning-bg: #1f1208;
+  --toast-warning-border: #bf7c40;
+  --toast-warning-text: #d4956a;
+  --toast-info-bg: #1a1208;
+  --toast-info-border: #bf7c40;
+  --toast-info-text: #d4956a;
+}
+
+/* ─── Semantic utility classes ───────────────────────────── */
+.app-body-gradient {
+  background: var(--body-gradient);
+}
+
+.toast-danger {
+  border-color: var(--toast-danger-border);
+  background-color: var(--toast-danger-bg);
+  color: var(--toast-danger-text);
+}
+.toast-success {
+  border-color: var(--toast-success-border);
+  background-color: var(--toast-success-bg);
+  color: var(--toast-success-text);
+}
+.toast-warning {
+  border-color: var(--toast-warning-border);
+  background-color: var(--toast-warning-bg);
+  color: var(--toast-warning-text);
+}
+.toast-info {
+  border-color: var(--toast-info-border);
+  background-color: var(--toast-info-bg);
+  color: var(--toast-info-text);
+}
+
+.input-error {
+  border-color: var(--border-error) !important;
+  box-shadow: 0 0 0 2px var(--border-error) !important;
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
 @keyframes torch-flicker {
   0%, 100% { opacity: 0.9; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.04); }
@@ -25,6 +330,7 @@
   animation: torch-flicker 1.8s ease-in-out infinite;
 }
 
+/* ─── Base styles ────────────────────────────────────────── */
 @layer base {
   i[class^="ri-"],
   i[class*=" ri-"] {
@@ -40,8 +346,8 @@
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 1px solid #a67b50;
-    background: linear-gradient(160deg, #3e2818 0%, #2f1e14 100%);
+    border: 1px solid var(--border-input);
+    background: var(--bg-input);
     cursor: pointer;
     position: relative;
     transition: all 0.18s ease;
@@ -58,14 +364,14 @@
 
   input[type="checkbox"]:hover,
   input[type="radio"]:hover {
-    border-color: #d4b07a;
+    border-color: var(--border-accent);
   }
 
   input[type="checkbox"]:checked,
   input[type="radio"]:checked {
-    border-color: #d4b07a;
-    background: linear-gradient(160deg, #d4b07a 0%, #b4895f 100%);
-    box-shadow: 0 0 0 4px rgb(212 176 122 / 0.18);
+    border-color: var(--border-accent);
+    background: var(--bg-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--bg-accent) 18%, transparent);
   }
 
   input[type="checkbox"]:checked::after {
@@ -75,7 +381,7 @@
     top: 48%;
     width: 5px;
     height: 10px;
-    border: solid #2d1c12;
+    border: solid var(--text-on-accent);
     border-width: 0 2px 2px 0;
     transform: translate(-50%, -50%) rotate(45deg);
   }
@@ -88,13 +394,13 @@
     width: 8px;
     height: 8px;
     border-radius: 9999px;
-    background: #2d1c12;
+    background: var(--text-on-accent);
     transform: translate(-50%, -50%);
   }
 
   input[type="checkbox"]:focus-visible,
   input[type="radio"]:focus-visible {
-    outline: 2px solid #d5b078;
+    outline: 2px solid var(--ring-focus);
     outline-offset: 2px;
   }
 }

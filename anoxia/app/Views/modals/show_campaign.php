@@ -1,50 +1,50 @@
 <div id="showCampaignBackdrop" class="invisible fixed inset-0 z-40 grid place-items-center bg-black/60 opacity-0 transition-opacity duration-200">
-	<div id="showCampaignPanel" class="w-[94vw] max-w-4xl translate-y-3 scale-95 rounded-2xl border border-[#9b7450] bg-[#3f2819] p-6 opacity-0 shadow-2xl transition duration-200">
+	<div id="showCampaignPanel" class="w-[94vw] max-w-4xl translate-y-3 scale-95 rounded-2xl border border-[var(--border-base)] bg-[var(--bg-modal)] p-6 opacity-0 shadow-2xl transition duration-200">
 		<div class="flex items-start justify-between gap-3">
 			<div>
-				<p class="text-xs uppercase tracking-[0.25em] text-[#caa679]">Detalhes da Campanha</p>
-				<h3 id="showCampaignTitle" class="mt-2 font-royal text-3xl text-[#f3e1c3]">Campaign Title</h3>
+				<p class="text-xs uppercase tracking-[0.25em] text-[var(--text-muted)]">Detalhes da Campanha</p>
+				<h3 id="showCampaignTitle" class="mt-2 font-royal text-3xl text-[var(--text-primary)]">Campaign Title</h3>
 			</div>
-			<button id="closeShowCampaignBtn" class="rounded-md px-2 py-1 text-[#f3e2c7] transition hover:bg-[#6a4328]" type="button" aria-label="Fechar detalhes">
+			<button id="closeShowCampaignBtn" class="rounded-md px-2 py-1 text-[var(--text-primary)] transition hover:bg-[var(--bg-btn)] hover:text-[var(--text-on-btn)]" type="button" aria-label="Fechar detalhes">
 				<i class="ri-close-line text-xl" aria-hidden="true"></i>
 			</button>
 		</div>
 
 		<div class="mt-5 grid gap-4 md:grid-cols-[260px_1fr]">
-			<div class="w-full overflow-hidden rounded-2xl border border-dashed border-[#8f6640] bg-[#2f1d12]/60 shadow-[0_10px_20px_rgba(10,6,4,0.25)]" style="aspect-ratio: 16 / 9;">
+			<div class="w-full overflow-hidden rounded-2xl border border-dashed border-[var(--border-base)] bg-[var(--bg-overlay)]/60 shadow-[0_10px_20px_rgba(10,6,4,0.25)]" style="aspect-ratio: 16 / 9;">
 				<img id="showCampaignImage" src="<?= esc(site_url('assets/images/campaign-default.svg')) ?>" alt="Campaign image" class="h-full w-full object-cover">
 			</div>
 			<div>
 				<div class="grid gap-2 sm:grid-cols-2">
-					<div class="rounded-xl border border-[#8f6640]/50 bg-[#4a2f1d]/70 p-3">
-						<p class="text-[11px] uppercase tracking-[0.2em] text-[#caa679]">ID</p>
-						<p id="showCampaignId" class="mt-1 text-sm font-semibold text-[#f3e2c7]">-</p>
+					<div class="rounded-xl border border-[var(--border-base)]/50 bg-[var(--bg-card-alt)]/70 p-3">
+						<p class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">ID</p>
+						<p id="showCampaignId" class="mt-1 text-sm font-semibold text-[var(--text-primary)]">-</p>
 					</div>
-					<div class="rounded-xl border border-[#8f6640]/50 bg-[#4a2f1d]/70 p-3">
-						<p class="text-[11px] uppercase tracking-[0.2em] text-[#caa679]">Estado</p>
-						<p id="showCampaignStatus" class="mt-1 text-sm font-semibold text-[#f3e2c7]">-</p>
+					<div class="rounded-xl border border-[var(--border-base)]/50 bg-[var(--bg-card-alt)]/70 p-3">
+						<p class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">Estado</p>
+						<p id="showCampaignStatus" class="mt-1 text-sm font-semibold text-[var(--text-primary)]">-</p>
 					</div>
 				</div>
-				<div class="mt-3 rounded-xl border border-[#8f6640]/50 bg-[#4a2f1d]/70 p-3">
-					<p class="text-[11px] uppercase tracking-[0.2em] text-[#caa679]">DM</p>
-					<p id="showCampaignDm" class="mt-1 text-sm font-semibold text-[#f3e2c7]">-</p>
+				<div class="mt-3 rounded-xl border border-[var(--border-base)]/50 bg-[var(--bg-card-alt)]/70 p-3">
+					<p class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">DM</p>
+					<p id="showCampaignDm" class="mt-1 text-sm font-semibold text-[var(--text-primary)]">-</p>
 				</div>
-				<div class="mt-3 rounded-xl border border-[#8f6640]/50 bg-[#4a2f1d]/70 p-3">
-					<p class="text-[11px] uppercase tracking-[0.2em] text-[#caa679]">Imagem (path)</p>
-					<p id="showCampaignImgPath" class="mt-1 truncate text-sm text-[#f3e2c7]">-</p>
+				<div class="mt-3 rounded-xl border border-[var(--border-base)]/50 bg-[var(--bg-card-alt)]/70 p-3">
+					<p class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">Imagem (path)</p>
+					<p id="showCampaignImgPath" class="mt-1 truncate text-sm text-[var(--text-primary)]">-</p>
 				</div>
 			</div>
 		</div>
 
-		<div class="mt-4 rounded-xl border border-[#8f6640]/50 bg-[#4a2f1d]/70 p-4">
-			<p class="text-[11px] uppercase tracking-[0.2em] text-[#caa679]">Descrição</p>
-			<p id="showCampaignDescription" class="mt-2 text-sm leading-relaxed text-[#dfc49d]">Campaign description goes here.</p>
+		<div class="mt-4 rounded-xl border border-[var(--border-base)]/50 bg-[var(--bg-card-alt)]/70 p-4">
+			<p class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">Descrição</p>
+			<p id="showCampaignDescription" class="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">Campaign description goes here.</p>
 		</div>
 
 		<div class="mt-5 flex flex-wrap justify-end gap-2 text-sm">
-			<button type="button" class="rounded-lg border border-[#8f6640] bg-[#5a3924] px-3 py-1.5 text-[#f3e2c7] transition hover:bg-[#6a432a]">Editar</button>
-			<button type="button" class="rounded-lg border border-[#8f6640] bg-[#5a3924] px-3 py-1.5 text-[#f3e2c7] transition hover:bg-[#6a432a]">Jogadores</button>
-			<button type="button" class="rounded-lg border border-[#d4b07a] bg-[#c89b60] px-3 py-1.5 font-semibold text-[#2d1c12] transition hover:bg-[#dbb780]">Jogar</button>
+			<button type="button" class="rounded-lg border border-[var(--border-base)] bg-[var(--bg-btn-secondary)] px-3 py-1.5 text-[var(--text-primary)] transition hover:bg-[var(--bg-btn-sec-hover)]">Editar</button>
+			<button type="button" class="rounded-lg border border-[var(--border-base)] bg-[var(--bg-btn-secondary)] px-3 py-1.5 text-[var(--text-primary)] transition hover:bg-[var(--bg-btn-sec-hover)]">Jogadores</button>
+			<button type="button" class="rounded-lg border border-[var(--border-accent)] bg-[var(--bg-accent)] px-3 py-1.5 font-semibold text-[var(--text-on-accent)] transition hover:bg-[var(--bg-accent-hover)]">Jogar</button>
 		</div>
 	</div>
 </div>
